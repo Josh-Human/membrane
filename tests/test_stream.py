@@ -37,11 +37,12 @@ class TestStreamGet:
 
 
 class TestStreamSet:
-    stream = StreamConstructor("data.json")
+    stream = StreamConstructor("data.json").stream
 
     def test_set_components(self):
         self.stream.components = {"CO2": 0.25, "N2": 0.75}
         assert self.stream.components == {"CO2": 0.25, "N2": 0.75}
+        assert self.stream.component_flows() == pytest.approx([125.025, 375.075])
 
     def test_set_flow(self):
         self.stream.flow = 200
@@ -54,3 +55,6 @@ class TestStreamSet:
     def test_set_pressure(self):
         self.stream.pressure = 150
         assert self.stream.pressure == 150
+
+
+#

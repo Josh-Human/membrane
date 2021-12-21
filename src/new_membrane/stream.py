@@ -19,13 +19,26 @@ class Stream:
     def flow(self) -> float:
         return self._flow
 
+    @flow.setter
+    def flow(self, value) -> None:
+        self._flow = value
+
     @property
     def temperature(self) -> float:
         return self._temperature
 
+    @temperature.setter
+    def temperature(self, value) -> None:
+        self._temperature = value
+
     @property
     def pressure(self):
         return self._pressure
+
+    @pressure.setter
+    def pressure(self, value) -> None:
+        self._pressure = value
+
 
     def __getattr__(self, component: str) -> float:
         try:
