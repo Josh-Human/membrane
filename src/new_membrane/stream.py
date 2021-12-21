@@ -36,3 +36,9 @@ class Stream:
 
     def component_flow(self, component):
         return self._components[component] * self._flow
+
+    def component_flows(self):
+        return [
+            self._components[component] * self._flow
+            for component in self._components.keys()
+        ]

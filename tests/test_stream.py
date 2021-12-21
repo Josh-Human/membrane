@@ -29,6 +29,11 @@ class TestStreamGet:
 
     def test_get_component_flow(self):
         assert isinstance(self.stream.component_flow("CO2"), float)
+        assert self.stream.component_flow("CO2") == 250.05
+
+    def test_get_component_flows(self):
+        assert isinstance(self.stream.component_flows(), list)
+        assert self.stream.component_flows() == [250.05, 250.05]
 
 
 class TestStreamSet:
