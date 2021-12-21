@@ -16,7 +16,7 @@ class TestStreamConstructor:
 class TestStreamInputs:
     def test_sum_composition(self):
         with pytest.raises(AssertionError):
-            stream = StreamConstructor("invalid_data.json").stream
+            stream = StreamConstructor("invalid_composition_sum.json").stream
 
     def test_negative_composition(self):
         with pytest.raises(AssertionError):

@@ -8,7 +8,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 
 class StreamConstructor:
     def __init__(self, file):
-        with open(os.path.join(dir_path, file)) as json_file:
+        with open(os.path.join(dir_path, "test_data/", file)) as json_file:
             self._data = json.load(json_file)
 
         self._check_composition()
