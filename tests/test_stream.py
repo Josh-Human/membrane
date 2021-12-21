@@ -27,9 +27,25 @@ class TestStreamGet:
         with pytest.raises(AttributeError):
             self.stream.H2O
 
+    def test_get_component_flow(self):
+        assert isinstance(self.stream.component_flow("CO2"), float)
+
 
 class TestStreamSet:
+    stream = StreamConstructor("data.json")
+
+    def test_set_components(self):
+        self.stream.components = {"CO2": 0.25, "N2": 0.75}
+        assert self.stream.components == {"CO2": 0.25, "N2": 0.75}
+
     def test_set_flow(self):
-        stream = StreamConstructor("data.json")
-        stream.flow = 200
-        assert stream.flow == 200
+        self.stream.flow = 200
+        assert self.stream.flow == 200
+
+    def test_set_temperature(self):
+        self.stream.temperature = 500
+        assert self.stream.temperature == 500
+
+    def test_set_pressure(self):
+        self.stream.pressure = 150
+        assert self.stream.pressure == 150

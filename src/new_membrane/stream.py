@@ -11,6 +11,10 @@ class Stream:
     def components(self) -> dict:
         return self._components
 
+    @components.setter
+    def components(self, newComposition: dict) -> dict:
+        self._components = newComposition
+
     @property
     def flow(self) -> float:
         return self._flow
@@ -29,3 +33,6 @@ class Stream:
         except KeyError:
             msg = "'{0}' object has no attribute '{1}'"
             raise AttributeError(msg.format(type(self).__name__, component))
+
+    def component_flow(self, component):
+        return self._components[component] * self._flow
