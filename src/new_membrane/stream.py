@@ -2,6 +2,7 @@ class Stream:
     def __init__(
         self, components: dict, flow: float, temp: float, pressure: float
     ) -> None:
+
         self._components = components
         self._flow = float(flow)
         self._temperature = float(temp)
