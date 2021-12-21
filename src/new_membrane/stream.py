@@ -1,8 +1,31 @@
 class Stream:
-    def __init__(self, components, flow, temp, pressure) -> None:
-        self.components = components
-        self.flow = flow
-        self.temp = temp
-        self.pressure = pressure
-        pass
-    
+    def __init__(
+        self, components: dict, flow: float, temp: float, pressure: float
+    ) -> None:
+        self._components = components
+        self._flow = float(flow)
+        self._temperature = float(temp)
+        self._pressure = float(pressure)
+
+    @property
+    def components(self) -> dict:
+        return self._components
+
+    @property
+    def flow(self) -> float:
+        return self._flow
+
+    @property
+    def temperature(self) -> float:
+        return self._temperature
+
+    @property
+    def pressure(self):
+        return self._pressure
+
+    def __getattr__(self, component: str) -> float:
+        try:
+            return self._components[component]
+        except KeyError:
+            msg = "'{0}' object has no attribute '{1}'"
+            raise AttributeError(msg.format(type(self).__name__, component))
