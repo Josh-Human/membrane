@@ -9,24 +9,36 @@ class StreamConstructor:
         with open(os.path.join(dir_path, file)) as json_file:
             self._data = json.load(json_file)
         
-        self.stream = self._constructStream()
+        self._stream = self._constructStream()
 
     def _constructStream(self):
-        return Stream()
+        components = self._data['components']
+        flow = self._data['flow_rate']
+        temp = self._data['temperature']
+        pressure = self._data['pressure']
+        return Stream(components, flow, temp, pressure)
 
-    def getStream(self):
-        return self.stream
+    @property
+    def stream(self):
+        return self._stream
 
 
-class MembraneConstructor:
-    def __init__(self, file):
-        with open(os.path.join(dir_path, file)) as json_file:
-            self._data = json.load(json_file)
+
+
+
+
+
+
+
+# class MembraneConstructor:
+#     def __init__(self, file):
+#         with open(os.path.join(dir_path, file)) as json_file:
+#             self._data = json.load(json_file)
         
-        self.membrane = self._constructMembrane()
+#         self.membrane = self._constructMembrane()
 
-    def _constructMembrane(self):
-        pass
+#     def _constructMembrane(self):
+#         pass
 
-    def getMembrane(self):
-        pass
+#     def getMembrane(self):
+#         pass
