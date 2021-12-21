@@ -39,7 +39,6 @@ class Stream:
     def pressure(self, value) -> None:
         self._pressure = value
 
-
     def __getattr__(self, component: str) -> float:
         try:
             return self._components[component]
