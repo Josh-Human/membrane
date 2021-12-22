@@ -16,24 +16,24 @@ class TestStreamConstructor:
 
 class TestStreamInputs:
     def test_sum_composition(self):
-        with pytest.raises(AssertionError):
+        with pytest.raises(ValueError):
             stream = StreamConstructor(
                 set_up("data.json", "components", {"CO2": 0.7, "N2": 0.5})
             ).stream
 
     def test_negative_composition(self):
-        with pytest.raises(AssertionError):
+        with pytest.raises(ValueError):
             stream = StreamConstructor(
                 set_up("data.json", "components", {"CO2": -0.25, "N2": 1.25})
             ).stream
 
     def test_format_components(self):
-        with pytest.raises(AssertionError):
+        with pytest.raises(TypeError):
             stream = StreamConstructor(
-                set_up("data.json", "components", ["CO2", -0.25, "N2", 1.25])
+                set_up("data.json", "components", ["CO2", 0.5, "N2", 0.5])
             ).stream
 
-        with pytest.raises(AssertionError):
+        with pytest.raises(TypeError):
             stream = StreamConstructor(
                 set_up("data.json", "components", {"CO2": "0.5", "N2": 0.5})
             ).stream
@@ -42,9 +42,13 @@ class TestStreamInputs:
         with pytest.raises(ValueError):
             stream = StreamConstructor(set_up("data.json", "pressure", -0.1)).stream
 
+    def test_flow_positive(self):
+        with pytest.raises(ValueError):
+            stream = StreamConstructor(set_up("data.json", "flow_rate", -5)).stream
+
     def test_pressure_float(self):
         with pytest.raises(TypeError):
-            stream = StreamConstructor(set_up("data.json", "pressure", None)).stream
+            stream = StreamConstructor(set_up("data.json", "pressure", "hello")).stream
 
     def test_temperature_float(self):
         with pytest.raises(TypeError):
