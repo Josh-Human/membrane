@@ -37,3 +37,19 @@ class TestStreamInputs:
             stream = StreamConstructor(
                 set_up("data.json", "components", {"CO2": "0.5", "N2": 0.5})
             ).stream
+
+    def test_pressure_positive(self):
+        with pytest.raises(ValueError):
+            stream = StreamConstructor(set_up("data.json", "pressure", -0.1)).stream
+
+    def test_pressure_float(self):
+        with pytest.raises(TypeError):
+            stream = StreamConstructor(set_up("data.json", "pressure", None)).stream
+
+    def test_temperature_float(self):
+        with pytest.raises(TypeError):
+            stream = StreamConstructor(set_up("data.json", "temperature", "2")).stream
+
+    def test_flow_float(self):
+        with pytest.raises(TypeError):
+            stream = StreamConstructor(set_up("data.json", "flow_rate", "2")).stream

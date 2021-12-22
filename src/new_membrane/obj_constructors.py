@@ -1,5 +1,6 @@
 import json
 import os
+from typing import Type
 
 from new_membrane.stream import Stream
 
@@ -13,7 +14,7 @@ class StreamConstructor:
         with open(os.path.join(used_path, file)) as json_file:
             self._data = json.load(json_file)
 
-        self._check_composition()
+        self._check_inputs()
         self._stream = self._constructStream()
 
     def _constructStream(self):
@@ -42,6 +43,21 @@ class StreamConstructor:
             self._data["components"][component] >= 0
             for component in self._data["components"].keys()
         )
+
+    def _check_inputs(self):
+        self._check_composition()
+
+        if not isinstance(self._data["pressure"], float):
+            raise TypeError("Pressure should be type float")
+
+        if not isinstance(self._data["temperature"], float):
+            raise TypeError("Temperature should be type float.")
+
+        if not isinstance(self._data["flow_rate"], float):
+            raise TypeError("Flow rate should be type float.")
+
+        if self._data["pressure"] < 0:
+            raise ValueError("Presure below 0.")
 
 
 # class MembraneConstructor:

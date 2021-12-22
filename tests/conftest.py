@@ -9,8 +9,8 @@ def set_up(file, key=None, value=None):
         data = {
             "components": {"CO2": 0.5, "N2": 0.5},
             "flow_rate": 500.1,
-            "temperature": 50,
-            "pressure": 1,
+            "temperature": 50.0,
+            "pressure": 1.0,
         }
         if key:
             data[key] = value
