@@ -20,7 +20,13 @@ class Stream:
 
     @components.setter
     def components(self, newComposition: dict) -> dict:
-        self._components = newComposition
+        # if sum(newComposition.values()) != 1:
+        #     raise ValueError("New composition must equal")
+
+        if isinstance(newComposition, list):
+            self._components.update(zip(self._components, newComposition))
+        else:
+            self._components = newComposition
 
     @property
     def flow(self) -> float:
