@@ -61,11 +61,27 @@ class TestStreamSet:
     #     with pytest.raises(ValueError):
     #         self.stream.components = {"CO2": 0.3, "N2": 0.75}
 
-    def test_set_flow(self):
+    def test_set_flow_dict(self):
         stream = StreamConstructor(set_up("data.json")).stream
         stream.flow = 200
 
         assert stream.flow == 200
+
+    def test_set_component_flows_list_correct_length(self):
+        stream = StreamConstructor(set_up("data.json")).stream
+
+        stream.component_flows = [1, 2.5]
+
+        assert stream.component_flows == {"CO2": 1, "N2": 2.5}
+
+    def test_set_component_flows_list_incorrect_length(self):
+        stream = StreamConstructor(
+            set_up("data.json", "components", {"CO2": 0.25, "N2": 0.25, "H2O": 0.5})
+        ).stream
+
+        stream.component_flows = [3, 4]
+
+        assert stream.component_flows == {"CO2": 3, "N2": 4, "H2O": 250.05}
 
     def test_set_temperature(self):
         self.stream.temperature = 500

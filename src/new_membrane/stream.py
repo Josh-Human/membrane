@@ -1,3 +1,6 @@
+from typing import Union
+
+
 class Stream:
     def __init__(
         self, components: dict, flow: float, temp: float, pressure: float
@@ -19,7 +22,7 @@ class Stream:
         return self._components
 
     @components.setter
-    def components(self, newComposition: dict) -> dict:
+    def components(self, newComposition: Union[dict, list]) -> None:
         # if sum(newComposition.values()) != 1:
         #     raise ValueError("New composition must equal")
 
@@ -33,7 +36,7 @@ class Stream:
         return self._flow
 
     @flow.setter
-    def flow(self, value) -> None:
+    def flow(self, value: float) -> None:
         self._flow = value
 
     @property
@@ -41,15 +44,15 @@ class Stream:
         return self._temperature
 
     @temperature.setter
-    def temperature(self, value) -> None:
+    def temperature(self, value: float) -> None:
         self._temperature = value
 
     @property
-    def pressure(self):
+    def pressure(self) -> float:
         return self._pressure
 
     @pressure.setter
-    def pressure(self, value) -> None:
+    def pressure(self, value: float) -> None:
         self._pressure = value
 
     def component_flow(self, component):
@@ -60,5 +63,8 @@ class Stream:
         return self._component_flows
 
     @component_flows.setter
-    def component_flows(self, newFlows: dict) -> dict:
-        self._component_flows = newFlows
+    def component_flows(self, newFlows: Union[dict, list]) -> None:
+        if isinstance(newFlows, list):
+            self._component_flows.update(zip(self._component_flows, newFlows))
+        else:
+            self._component_flows = newFlows
