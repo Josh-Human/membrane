@@ -4,9 +4,9 @@ class Stream:
     ) -> None:
 
         self._components = components
-        self._flow = float(flow)
-        self._temperature = float(temp)
-        self._pressure = float(pressure)
+        self._flow = flow
+        self._temperature = temp
+        self._pressure = pressure
 
     @property
     def components(self) -> dict:
