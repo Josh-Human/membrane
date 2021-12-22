@@ -1,9 +1,10 @@
 from new_membrane.obj_constructors import StreamConstructor
 import pytest
+from .conftest import set_up
 
 
 class TestStreamGet:
-    stream = StreamConstructor("data.json").stream
+    stream = StreamConstructor(set_up("data.json")).stream
 
     def test_get_components(self):
         assert isinstance(self.stream.components, dict)
@@ -37,17 +38,17 @@ class TestStreamGet:
 
 
 class TestStreamSet:
-    stream = StreamConstructor("data.json").stream
+    stream = StreamConstructor(set_up("data.json")).stream
 
     def test_set_components(self):
-        stream = StreamConstructor("data.json").stream
+        stream = StreamConstructor(set_up("data.json")).stream
         stream.components = {"CO2": 0.25, "N2": 0.75}
 
         assert stream.components == {"CO2": 0.25, "N2": 0.75}
         assert stream.component_flows() == pytest.approx([125.025, 375.075])
 
     def test_set_flow(self):
-        stream = StreamConstructor("data.json").stream
+        stream = StreamConstructor(set_up("data.json")).stream
         stream.flow = 200
 
         assert stream.flow == 200
