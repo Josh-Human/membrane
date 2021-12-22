@@ -10,7 +10,7 @@ class TestStreamGet:
         assert self.stream.components == {"CO2": 0.5, "N2": 0.5}
 
     def test_get_flow(self):
-        assert self.stream.flow == 500.1
+        assert self.stream.flow == 500.0
 
     def test_get_temperature(self):
         assert self.stream.temperature == 50
@@ -24,13 +24,13 @@ class TestStreamGet:
             self.stream.components["H2O"]
 
     def test_get_component_flow(self):
-        assert self.stream.component_flows["CO2"] == 250.05
+        assert self.stream.component_flows["CO2"] == 250.0
         with pytest.raises(KeyError):
             self.stream.components["H2O"]
 
     def test_get_component_flows(self):
         assert isinstance(self.stream.component_flows, dict)
-        assert self.stream.component_flows == {"CO2": 250.05, "N2": 250.05}
+        assert self.stream.component_flows == {"CO2": 250.0, "N2": 250.0}
 
 
 class TestStreamSet:
@@ -57,10 +57,6 @@ class TestStreamSet:
 
         assert stream.components == {"CO2": 0.1, "N2": 0.4, "H2O": 0.5}
 
-    # def test_set_components_equals_one(self):
-    #     with pytest.raises(ValueError):
-    #         self.stream.components = {"CO2": 0.3, "N2": 0.75}
-
     def test_set_flow_dict(self):
         stream = StreamConstructor(set_up("data.json")).stream
         stream.flow = 200
@@ -81,7 +77,7 @@ class TestStreamSet:
 
         stream.component_flows = [3, 4]
 
-        assert stream.component_flows == {"CO2": 3, "N2": 4, "H2O": 250.05}
+        assert stream.component_flows == {"CO2": 3, "N2": 4, "H2O": 250.0}
 
     def test_set_temperature(self):
         self.stream.temperature = 500
@@ -91,8 +87,22 @@ class TestStreamSet:
         self.stream.pressure = 150
         assert self.stream.pressure == 150
 
-    # class TestStreamSetConsistency:
-    #     stream = StreamConstructor(set_up("data.json")).stream
+    class TestStreamSetConsistency:
+        def test_set_composition_sums_to_one(self):
+            stream = StreamConstructor(set_up("data.json")).stream
 
-    #     def test_composition_changes_flows(self):
-    #         self.stream.components = {"CO2": 0.25, "N2": 0.75}
+            with pytest.raises(ValueError):
+                stream.components = {"CO2": 0.2, "N2": 0.75}
+
+        def test_set_composition_has_positive_values(self):
+            stream = StreamConstructor(set_up("data.json")).stream
+
+            with pytest.raises(ValueError):
+                stream.components = {"CO2": -0.2, "N2": 0.8}
+
+        # TODO: Maintaing consistency when a value is changed.
+        # def test_set_composition_updates_component_flows(self):
+        #     stream = StreamConstructor(set_up("data.json")).stream
+
+        #     with pytest.raises(ValueError):
+        #         stream.components = {"CO2": -0.2, "N2": 0.8}

@@ -23,9 +23,11 @@ class Stream:
 
     @components.setter
     def components(self, newComposition: Union[dict, list]) -> None:
-        # if sum(newComposition.values()) != 1:
-        #     raise ValueError("New composition must equal")
+        if sum(newComposition.values()) != 1:
+            raise ValueError("New composition must equal")
 
+        if any(newComposition.values() < 0):
+            raise ValueError("New composition values must be positive")
         if isinstance(newComposition, list):
             self._components.update(zip(self._components, newComposition))
         else:
