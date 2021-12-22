@@ -7,6 +7,12 @@ class Stream:
         self._flow = flow
         self._temperature = temp
         self._pressure = pressure
+        self._component_flows = dict(
+            zip(
+                components.keys(),
+                [components[component] * self._flow for component in components.keys()],
+            )
+        )
 
     @property
     def components(self) -> dict:
@@ -40,18 +46,13 @@ class Stream:
     def pressure(self, value) -> None:
         self._pressure = value
 
-    def __getattr__(self, component: str) -> float:
-        try:
-            return self._components[component]
-        except KeyError:
-            msg = "'{0}' object has no attribute '{1}'"
-            raise AttributeError(msg.format(type(self).__name__, component))
-
     def component_flow(self, component):
         return self._components[component] * self._flow
 
+    @property
     def component_flows(self):
-        return [
-            self._components[component] * self._flow
-            for component in self._components.keys()
-        ]
+        return self._component_flows
+
+    @component_flows.setter
+    def component_flows(self, newFlows: dict) -> dict:
+        self._component_flows = newFlows
