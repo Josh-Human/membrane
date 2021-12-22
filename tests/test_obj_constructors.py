@@ -21,3 +21,10 @@ class TestStreamInputs:
     def test_negative_composition(self):
         with pytest.raises(AssertionError):
             stream = StreamConstructor("negative_composition.json").stream
+
+    def test_format_components(self):
+        with pytest.raises(AssertionError):
+            stream = StreamConstructor("non_dict_composition.json").stream
+
+        with pytest.raises(AssertionError):
+            stream = StreamConstructor("non_float_composition.json").stream
