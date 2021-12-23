@@ -73,10 +73,21 @@ class TestStreamSet:
 
         assert stream.component_flows == {"CO2": 125, "N2": 375}
 
-    def test_set_flows_dict(self, stream):
+    def test_set_flow(self, stream):
         stream.flow = 200
 
         assert stream.flow == 200
+
+    def test_set_flow_updates_component_flows(self, stream):
+        stream.flow = 200
+
+        assert stream.component_flows == {"CO2": 100, "N2": 100}
+
+    def test_set_flows_dict_correct_length(self, stream):
+
+        stream.component_flows = {"CO2": 0.6, "N2": 0.4}
+
+        assert stream.component_flows == {"CO2": 0.6, "N2": 0.4}
 
     def test_set_flows_dict_incorrect_length(self, stream):
 
@@ -116,3 +127,8 @@ class TestStreamSet:
 
             with pytest.raises(ValueError):
                 stream.composition = {"CO2": -0.2, "N2": 0.8}
+
+        def test_set_flows_has_positive_values(self, stream):
+
+            with pytest.raises(ValueError):
+                stream.component_flows = {"CO2": -5, "N2": 10}

@@ -39,6 +39,7 @@ class Stream:
     @flow.setter
     def flow(self, value: float) -> None:
         self._flow = value
+        self._component_flows = self._update_component_flows()
 
     @property
     def temperature(self) -> float:
@@ -66,10 +67,13 @@ class Stream:
     @component_flows.setter
     def component_flows(self, newFlows: Union[dict, list]) -> None:
         if isinstance(newFlows, list):
-            print("List")
+            if any(value < 0 for value in newFlows):
+                raise ValueError("New composition values must be positive")
+
             self._component_flows.update(zip(self._component_flows, newFlows))
         else:
-            print("dict")
+            if any(v < 0 for v in iter(newFlows.values())):
+                raise ValueError("New composition values must be positive")
             self._component_flows.update(newFlows)
 
     def _composition_equals_one(self, newComposition):
