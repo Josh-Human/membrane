@@ -10,15 +10,7 @@ class Stream:
         self._flow = flow
         self._temperature = temp
         self._pressure = pressure
-        self._component_flows = dict(
-            zip(
-                composition.keys(),
-                [
-                    composition[component] * self._flow
-                    for component in composition.keys()
-                ],
-            )
-        )
+        self._component_flows = self._update_component_flows()
 
     @property
     def composition(self) -> dict:
@@ -37,6 +29,8 @@ class Stream:
                 raise ValueError("New composition values must be positive")
 
             self._composition_equals_one(newComposition)
+
+        self._component_flows = self._update_component_flows()
 
     @property
     def flow(self) -> float:
@@ -76,7 +70,7 @@ class Stream:
             self._component_flows.update(zip(self._component_flows, newFlows))
         else:
             print("dict")
-            self._component_flows = newFlows
+            self._component_flows.update(newFlows)
 
     def _composition_equals_one(self, newComposition):
         if isinstance(newComposition, list):
@@ -86,3 +80,14 @@ class Stream:
 
         if sum(self._composition.values()) != 1:
             raise ValueError("New composition must equal 1")
+
+    def _update_component_flows(self):
+        return dict(
+            zip(
+                self._composition.keys(),
+                [
+                    self._composition[component] * self._flow
+                    for component in self._composition.keys()
+                ],
+            )
+        )

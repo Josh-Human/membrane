@@ -30,11 +30,15 @@ class TestStreamGet:
 
     def test_get_component_flow(self, stream):
         assert stream.component_flows["CO2"] == 250.0
+
+    def test_get_invalid_component_flow(self, stream):
         with pytest.raises(KeyError):
             stream.composition["H2O"]
 
-    def test_get_component_flows(self, stream):
+    def test_component_flows_is_dict(self, stream):
         assert isinstance(stream.component_flows, dict)
+
+    def test_get_component_flows(self, stream):
         assert stream.component_flows == {"CO2": 250.0, "N2": 250.0}
 
 
@@ -64,10 +68,22 @@ class TestStreamSet:
 
         assert stream.composition == {"CO2": 0.1, "N2": 0.4, "H2O": 0.5}
 
-    def test_set_flow_dict(self, stream):
+    def test_set_composition_updates_component_flows(self, stream):
+        stream.composition = {"CO2": 0.25, "N2": 0.75}
+
+        assert stream.component_flows == {"CO2": 125, "N2": 375}
+
+    def test_set_flows_dict(self, stream):
         stream.flow = 200
 
         assert stream.flow == 200
+
+    def test_set_flows_dict_incorrect_length(self, stream):
+
+        stream.component_flows = {"CO2": 0.25, "N2": 0.25, "H2O": 0.5}
+        stream.component_flows = {"CO2": 0.1, "N2": 0.4}
+
+        assert stream.component_flows == {"CO2": 0.1, "N2": 0.4, "H2O": 0.5}
 
     def test_set_flows_list_correct_length(self, stream):
 
@@ -75,12 +91,12 @@ class TestStreamSet:
 
         assert stream.component_flows == {"CO2": 1, "N2": 2.5}
 
-    # def test_set_flows_list_incorrect_length(self, stream):
+    def test_set_flows_list_incorrect_length(self, stream):
 
-    #     stream.composition = {"CO2": 0.25, "N2": 0.25, "H2O": 0.5}
-    #     stream.component_flows = [3, 4]
+        stream.composition = {"CO2": 0.25, "N2": 0.25, "H2O": 0.5}
+        stream.component_flows = [3, 4]
 
-    #     assert stream.component_flows == {"CO2": 3, "N2": 4, "H2O": 250.0}
+        assert stream.component_flows == {"CO2": 3, "N2": 4, "H2O": 250.0}
 
     def test_set_temperature(self, stream):
         stream.temperature = 500
@@ -97,11 +113,6 @@ class TestStreamSet:
                 stream.composition = {"CO2": 0.2, "N2": 0.75}
 
         def test_set_composition_has_positive_values(self, stream):
-
-            with pytest.raises(ValueError):
-                stream.composition = {"CO2": -0.2, "N2": 0.8}
-
-        def test_set_composition_updates_component_flows(self, stream):
 
             with pytest.raises(ValueError):
                 stream.composition = {"CO2": -0.2, "N2": 0.8}
