@@ -23,15 +23,17 @@ class Stream:
 
     @components.setter
     def components(self, newComposition: Union[dict, list]) -> None:
-        if sum(newComposition.values()) != 1:
-            raise ValueError("New composition must equal")
 
-        if any(newComposition.values() < 0):
-            raise ValueError("New composition values must be positive")
         if isinstance(newComposition, list):
-            self._components.update(zip(self._components, newComposition))
+            if any(value < 0 for value in newComposition):
+                raise ValueError("New composition values must be positive")
+
+            self._composition_equals_one(newComposition)
         else:
-            self._components = newComposition
+            if any(v < 0 for v in iter(newComposition.values())):
+                raise ValueError("New composition values must be positive")
+
+            self._composition_equals_one(newComposition)
 
     @property
     def flow(self) -> float:
@@ -70,3 +72,12 @@ class Stream:
             self._component_flows.update(zip(self._component_flows, newFlows))
         else:
             self._component_flows = newFlows
+
+    def _composition_equals_one(self, newComposition):
+        if isinstance(newComposition, list):
+            self._components.update(zip(self._components, newComposition))
+        else:
+            self._components.update(newComposition)
+
+        if sum(self._components.values()) != 1:
+            raise ValueError("New composition must equal 1")
