@@ -1,17 +1,15 @@
-from new_membrane.obj_constructors import StreamConstructor
+from new_membrane.stream_constructor import StreamConstructor
 from new_membrane.stream import Stream
-from .conftest import set_up
 import pytest
+from .conftest import set_up
 
 
 class TestStreamConstructor:
-    streamConstructor = StreamConstructor(set_up("data.json"))
+    def test_create_instance(self, stream_constructor):
+        assert isinstance(stream_constructor, StreamConstructor)
 
-    def test_create_instance(self):
-        assert isinstance(self.streamConstructor, StreamConstructor)
-
-    def test_stream_constructed(self):
-        assert isinstance(self.streamConstructor.stream, Stream)
+    def test_stream_constructed(self, stream):
+        assert isinstance(stream, Stream)
 
 
 class TestStreamInputs:

@@ -1,11 +1,11 @@
-from new_membrane.obj_constructors import StreamConstructor
+from new_membrane.stream_constructor import StreamConstructor
 import pytest
 from .conftest import set_up
 
 
 @pytest.fixture(autouse=True)
 def stream():
-    new_stream = StreamConstructor(set_up("data.json")).stream
+    new_stream = StreamConstructor(set_up("stream_data.json")).stream
     print("invoked")
     return new_stream
 

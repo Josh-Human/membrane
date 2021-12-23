@@ -4,14 +4,12 @@ from typing import Type
 
 from new_membrane.stream import Stream
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
-used_path = "C:\\Users\\jhuma\\OneDrive\Desktop\python\\new-membrane\\tests\\test_data"
-print(used_path)
+DIR_PATH = "C:\\Users\\jhuma\\OneDrive\Desktop\python\\new-membrane\\tests\\test_data"
 
 
 class StreamConstructor:
-    def __init__(self, file):
-        with open(os.path.join(used_path, file)) as json_file:
+    def __init__(self, file: str):
+        with open(os.path.join(DIR_PATH, file)) as json_file:
             self._data = json.load(json_file)
         self._convert_ints()
         self._check_inputs()
@@ -25,7 +23,7 @@ class StreamConstructor:
         return Stream(composition, flow, temp, pressure)
 
     @property
-    def stream(self):
+    def stream(self) -> Stream:
         return self._stream
 
     def _check_type(self):
@@ -91,17 +89,3 @@ class StreamConstructor:
 
         if isinstance(self._data["flow_rate"], int):
             self._data["flow_rate"] = float(self._data["flow_rate"])
-
-
-# class MembraneConstructor:
-#     def __init__(self, file):
-#         with open(os.path.join(dir_path, file)) as json_file:
-#             self._data = json.load(json_file)
-
-#         self.membrane = self._constructMembrane()
-
-#     def _constructMembrane(self):
-#         pass
-
-#     def getMembrane(self):
-#         pass
