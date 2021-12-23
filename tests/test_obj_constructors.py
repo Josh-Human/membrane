@@ -18,24 +18,24 @@ class TestStreamInputs:
     def test_sum_composition(self):
         with pytest.raises(ValueError):
             stream = StreamConstructor(
-                set_up("data.json", "components", {"CO2": 0.7, "N2": 0.5})
+                set_up("data.json", "composition", {"CO2": 0.7, "N2": 0.5})
             ).stream
 
     def test_negative_composition(self):
         with pytest.raises(ValueError):
             stream = StreamConstructor(
-                set_up("data.json", "components", {"CO2": -0.25, "N2": 1.25})
+                set_up("data.json", "composition", {"CO2": -0.25, "N2": 1.25})
             ).stream
 
-    def test_format_components(self):
+    def test_format_composition(self):
         with pytest.raises(TypeError):
             stream = StreamConstructor(
-                set_up("data.json", "components", ["CO2", 0.5, "N2", 0.5])
+                set_up("data.json", "composition", ["CO2", 0.5, "N2", 0.5])
             ).stream
 
         with pytest.raises(TypeError):
             stream = StreamConstructor(
-                set_up("data.json", "components", {"CO2": "0.5", "N2": 0.5})
+                set_up("data.json", "composition", {"CO2": "0.5", "N2": 0.5})
             ).stream
 
     def test_pressure_positive(self):

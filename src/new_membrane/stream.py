@@ -3,26 +3,29 @@ from typing import Union
 
 class Stream:
     def __init__(
-        self, components: dict, flow: float, temp: float, pressure: float
+        self, composition: dict, flow: float, temp: float, pressure: float
     ) -> None:
 
-        self._components = components
+        self._composition = composition
         self._flow = flow
         self._temperature = temp
         self._pressure = pressure
         self._component_flows = dict(
             zip(
-                components.keys(),
-                [components[component] * self._flow for component in components.keys()],
+                composition.keys(),
+                [
+                    composition[component] * self._flow
+                    for component in composition.keys()
+                ],
             )
         )
 
     @property
-    def components(self) -> dict:
-        return self._components
+    def composition(self) -> dict:
+        return self._composition
 
-    @components.setter
-    def components(self, newComposition: Union[dict, list]) -> None:
+    @composition.setter
+    def composition(self, newComposition: Union[dict, list]) -> None:
 
         if isinstance(newComposition, list):
             if any(value < 0 for value in newComposition):
@@ -60,7 +63,7 @@ class Stream:
         self._pressure = value
 
     def component_flow(self, component):
-        return self._components[component] * self._flow
+        return self._composition[component] * self._flow
 
     @property
     def component_flows(self):
@@ -75,9 +78,9 @@ class Stream:
 
     def _composition_equals_one(self, newComposition):
         if isinstance(newComposition, list):
-            self._components.update(zip(self._components, newComposition))
+            self._composition.update(zip(self._composition, newComposition))
         else:
-            self._components.update(newComposition)
+            self._composition.update(newComposition)
 
-        if sum(self._components.values()) != 1:
+        if sum(self._composition.values()) != 1:
             raise ValueError("New composition must equal 1")

@@ -18,11 +18,11 @@ class StreamConstructor:
         self._stream = self._constructStream()
 
     def _constructStream(self):
-        components = self._data["components"]
+        composition = self._data["composition"]
         flow = self._data["flow_rate"]
         temp = self._data["temperature"]
         pressure = self._data["pressure"]
-        return Stream(components, flow, temp, pressure)
+        return Stream(composition, flow, temp, pressure)
 
     @property
     def stream(self):
@@ -30,16 +30,16 @@ class StreamConstructor:
 
     def _check_type(self):
 
-        if not isinstance(self._data["components"], dict):
-            raise TypeError("Components should be type dict.")
+        if not isinstance(self._data["composition"], dict):
+            raise TypeError("composition should be type dict.")
 
-        components_are_float = all(
-            isinstance(self._data["components"][component], float)
-            for component in self._data["components"].keys()
+        composition_are_float = all(
+            isinstance(self._data["composition"][component], float)
+            for component in self._data["composition"].keys()
         )
 
-        if not components_are_float:
-            raise TypeError("Components values should be floats.")
+        if not composition_are_float:
+            raise TypeError("composition values should be floats.")
 
         if not isinstance(self._data["pressure"], float):
             raise TypeError("Pressure should be type float.")
@@ -51,12 +51,12 @@ class StreamConstructor:
             raise TypeError("Flow rate should be type float.")
 
     def _check_value(self):
-        if sum(self._data["components"].values()) != 1:
+        if sum(self._data["composition"].values()) != 1:
             raise ValueError("Composition does not sum to 1.")
 
         composition_all_positive = all(
-            self._data["components"][component] >= 0
-            for component in self._data["components"].keys()
+            self._data["composition"][component] >= 0
+            for component in self._data["composition"].keys()
         )
 
         if not composition_all_positive:
@@ -74,14 +74,14 @@ class StreamConstructor:
         self._check_value()
 
     def _convert_ints(self):
-        if isinstance(self._data["components"], dict):
-            components_are_int = all(
-                isinstance(self._data["components"][component], int)
-                for component in self._data["components"].keys()
+        if isinstance(self._data["composition"], dict):
+            composition_are_int = all(
+                isinstance(self._data["composition"][component], int)
+                for component in self._data["composition"].keys()
             )
-            if components_are_int:
-                for k, v in self._data["components"]:
-                    self._data["components"][k] = float(v)
+            if composition_are_int:
+                for k, v in self._data["composition"]:
+                    self._data["composition"][k] = float(v)
 
         if isinstance(self._data["pressure"], int):
             self._data["pressure"] = float(self._data["pressure"])
