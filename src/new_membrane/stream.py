@@ -72,8 +72,10 @@ class Stream:
     @component_flows.setter
     def component_flows(self, newFlows: Union[dict, list]) -> None:
         if isinstance(newFlows, list):
+            print("List")
             self._component_flows.update(zip(self._component_flows, newFlows))
         else:
+            print("dict")
             self._component_flows = newFlows
 
     def _composition_equals_one(self, newComposition):
