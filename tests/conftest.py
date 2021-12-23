@@ -22,14 +22,27 @@ def stream_constructor():
 
 @pytest.fixture(autouse=True)
 def membrane():
-    new_membrane = MembraneConstructor(set_up("membrane_data.json")).membrane
+    new_membrane = MembraneConstructor(set_up_membrane("membrane_data.json")).membrane
     return new_membrane
 
 
 @pytest.fixture(autouse=True)
 def membrane_constructor():
-    new_membrane_constructor = MembraneConstructor(set_up("membrane_data.json"))
+    new_membrane_constructor = MembraneConstructor(
+        set_up_membrane("membrane_data.json")
+    )
     return new_membrane_constructor
+
+
+def set_up_membrane(file, key=None, value=None):
+    with open(os.path.join(DIR_PATH, file), "w+") as json_file:
+        data = {"permeability": {"CO2": 5, "N2": 5}, "area": 500, "dA": 10}
+        if key:
+            data[key] = value
+
+        json.dump(data, json_file)
+
+    return file
 
 
 def set_up(file, key=None, value=None):
