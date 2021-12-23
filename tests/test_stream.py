@@ -114,6 +114,11 @@ class TestStreamSet:
 
         assert stream.composition == {"CO2": 0.4, "N2": 0.6}
 
+    def test_set_component_flows_updates_flow(self, stream):
+        stream.component_flows = {"CO2": 20, "N2": 30}
+
+        assert stream.flow == 50
+
     def test_set_temperature(self, stream):
         stream.temperature = 500
         assert stream.temperature == 500
