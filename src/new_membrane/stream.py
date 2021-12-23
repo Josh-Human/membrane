@@ -38,6 +38,8 @@ class Stream:
 
     @flow.setter
     def flow(self, value: float) -> None:
+        if value < 0:
+            raise ValueError("Flow must be positive")
         self._flow = value
         self._component_flows = self._update_component_flows()
 
@@ -55,6 +57,8 @@ class Stream:
 
     @pressure.setter
     def pressure(self, value: float) -> None:
+        if value < 0:
+            raise ValueError("Pressure must be positive")
         self._pressure = value
 
     def component_flow(self, component):
