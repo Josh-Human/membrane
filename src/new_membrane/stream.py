@@ -75,6 +75,7 @@ class Stream:
             if any(v < 0 for v in iter(newFlows.values())):
                 raise ValueError("New composition values must be positive")
             self._component_flows.update(newFlows)
+        self._composition = self._update_composition()
 
     def _composition_equals_one(self, newComposition):
         if isinstance(newComposition, list):
@@ -92,6 +93,18 @@ class Stream:
                 [
                     self._composition[component] * self._flow
                     for component in self._composition.keys()
+                ],
+            )
+        )
+
+    def _update_composition(self):
+        return dict(
+            zip(
+                self._composition.keys(),
+                [
+                    self._component_flows[component]
+                    / sum(self._component_flows.values())
+                    for component in self._component_flows.keys()
                 ],
             )
         )
