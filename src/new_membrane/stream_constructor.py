@@ -52,7 +52,7 @@ class StreamConstructor:
         if sum(self._data["composition"].values()) != 1:
             raise ValueError("Composition does not sum to 1.")
 
-        if check_dict_values_postive(self, "composition"):
+        if check_dict_values_postive(self._data["composition"]):
             raise ValueError("Composition values should all be positive.")
 
         if self._data["pressure"] < 0:
