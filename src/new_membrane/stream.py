@@ -20,16 +20,11 @@ class Stream:
     @composition.setter
     def composition(self, newComposition: Union[dict, list]) -> None:
 
-        if isinstance(newComposition, list):
-            if check_values_positive(newComposition):
-                raise ValueError("New composition values must be positive")
-            self._composition_equals_one(newComposition)
+        self._check_values_and_update("_composition", newComposition)
 
-        else:
-            if check_values_positive(newComposition):
-                raise ValueError("New composition values must be positive")
+        if sum(self._composition.values()) != 1:
+            raise ValueError("New composition must equal 1")
 
-            self._composition_equals_one(newComposition)
         self._component_flows = self._update_component_flows()
 
     @property
@@ -70,27 +65,11 @@ class Stream:
 
     @component_flows.setter
     def component_flows(self, newFlows: Union[dict, list]) -> None:
-        if isinstance(newFlows, list):
-            if check_values_positive(newFlows):
-                raise ValueError("New component flow values must be positive")
 
-            self._component_flows.update(zip(self._component_flows, newFlows))
-        else:
-            if check_values_positive(newFlows):
-                raise ValueError("New component flow values must be positive")
-            self._component_flows.update(newFlows)
+        self._check_values_and_update("_component_flows", newFlows)
 
         self._update_flow()
         self._update_composition()
-
-    def _composition_equals_one(self, newComposition):
-        if isinstance(newComposition, list):
-            self._composition.update(zip(self._composition, newComposition))
-        else:
-            self._composition.update(newComposition)
-
-        if sum(self._composition.values()) != 1:
-            raise ValueError("New composition must equal 1")
 
     def _update_component_flows(self):
         return dict(
@@ -116,3 +95,12 @@ class Stream:
 
     def _update_flow(self):
         self._flow = sum(self._component_flows.values())
+
+    def _check_values_and_update(self, attr, newValues):
+        if check_values_positive(newValues):
+            raise ValueError("New values must be positive")
+
+        if isinstance(newValues, list):
+            getattr(self, attr).update(zip(getattr(self, attr), newValues))
+        else:
+            getattr(self, attr).update(newValues)
