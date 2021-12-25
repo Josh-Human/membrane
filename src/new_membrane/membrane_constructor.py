@@ -6,13 +6,13 @@ DIR_PATH = "C:\\Users\\jhuma\\OneDrive\Desktop\python\\new-membrane\\tests\\test
 
 
 class MembraneConstructor:
-    def __init__(self, file: str):
+    def __init__(self, file: str) -> None:
         with open(os.path.join(DIR_PATH, file)) as json_file:
             self._data = json.load(json_file)
 
         self._membrane = self._constructMembrane()
 
-    def _constructMembrane(self):
+    def _constructMembrane(self)-> None:
         permeability = self._data["permeability"]
         area = self._data["area"]
         dA = self._data["dA"]

@@ -56,11 +56,11 @@ class Stream:
             raise ValueError("Pressure must be positive")
         self._pressure = value
 
-    def component_flow(self, component):
+    def component_flow(self, component: str) -> float:
         return self._composition[component] * self._flow
 
     @property
-    def component_flows(self):
+    def component_flows(self) -> dict:
         return self._component_flows
 
     @component_flows.setter
@@ -71,7 +71,7 @@ class Stream:
         self._update_flow()
         self._update_composition()
 
-    def _update_component_flows(self):
+    def _update_component_flows(self) -> dict:
         return dict(
             zip(
                 self._composition.keys(),
@@ -82,7 +82,7 @@ class Stream:
             )
         )
 
-    def _update_composition(self):
+    def _update_composition(self) -> None:
         self._composition = dict(
             zip(
                 self._composition.keys(),
@@ -93,10 +93,10 @@ class Stream:
             )
         )
 
-    def _update_flow(self):
+    def _update_flow(self) -> None:
         self._flow = sum(self._component_flows.values())
 
-    def _check_values_and_update(self, attr, newValues):
+    def _check_values_and_update(self, attr: str, newValues: Union[list, dict]) -> None:
         if check_values_positive(newValues):
             raise ValueError("New values must be positive")
 

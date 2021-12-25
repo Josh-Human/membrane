@@ -8,14 +8,14 @@ DIR_PATH = "C:\\Users\\jhuma\\OneDrive\Desktop\python\\new-membrane\\tests\\test
 
 
 class StreamConstructor:
-    def __init__(self, file: str):
+    def __init__(self, file: str) -> None:
         with open(os.path.join(DIR_PATH, file)) as json_file:
             self._data = json.load(json_file)
         self._convert_ints()
         self._check_inputs()
         self._stream = self._constructStream()
 
-    def _constructStream(self):
+    def _constructStream(self) -> Stream:
         composition = self._data["composition"]
         flow = self._data["flow_rate"]
         temp = self._data["temperature"]
@@ -26,7 +26,7 @@ class StreamConstructor:
     def stream(self) -> Stream:
         return self._stream
 
-    def _check_type(self):
+    def _check_type(self) -> None:
 
         if not isinstance(self._data["composition"], dict):
             raise TypeError("Composition should be type dict.")
@@ -48,7 +48,7 @@ class StreamConstructor:
         if not isinstance(self._data["flow_rate"], float):
             raise TypeError("Flow rate should be type float.")
 
-    def _check_value(self):
+    def _check_value(self) -> None:
         if sum(self._data["composition"].values()) != 1:
             raise ValueError("Composition does not sum to 1.")
 
@@ -61,12 +61,12 @@ class StreamConstructor:
         if self._data["flow_rate"] < 0:
             raise ValueError("Flow rate below 0.")
 
-    def _check_inputs(self):
+    def _check_inputs(self) -> None:
 
         self._check_type()
         self._check_value()
 
-    def _convert_ints(self):
+    def _convert_ints(self) -> None:
         if isinstance(self._data["composition"], dict):
             composition_are_int = all(
                 isinstance(self._data["composition"][component], int)
