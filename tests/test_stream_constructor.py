@@ -20,17 +20,20 @@ class TestStreamInputs:
             ).stream
 
     def test_negative_composition(self):
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError) as e:
             stream = StreamConstructor(
                 set_up("data.json", "composition", {"CO2": -0.25, "N2": 1.25})
             ).stream
 
-    def test_format_composition(self):
-        with pytest.raises(TypeError):
+        assert str(e.value) == "Composition values should all be positive."
+
+    def test_composition_is_dict(self):
+        with pytest.raises(TypeError) as e:
             stream = StreamConstructor(
                 set_up("data.json", "composition", ["CO2", 0.5, "N2", 0.5])
             ).stream
 
+    def test_composition_values_are_float(self):
         with pytest.raises(TypeError):
             stream = StreamConstructor(
                 set_up("data.json", "composition", {"CO2": "0.5", "N2": 0.5})

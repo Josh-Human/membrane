@@ -1,8 +1,8 @@
 import json
 import os
 from typing import Type
-
 from new_membrane.stream import Stream
+from .utils.utils import check_dict_values_postive
 
 DIR_PATH = "C:\\Users\\jhuma\\OneDrive\Desktop\python\\new-membrane\\tests\\test_data"
 
@@ -29,14 +29,14 @@ class StreamConstructor:
     def _check_type(self):
 
         if not isinstance(self._data["composition"], dict):
-            raise TypeError("composition should be type dict.")
+            raise TypeError("Composition should be type dict.")
 
-        composition_are_float = all(
+        compositions_are_float = all(
             isinstance(self._data["composition"][component], float)
             for component in self._data["composition"].keys()
         )
 
-        if not composition_are_float:
+        if not compositions_are_float:
             raise TypeError("composition values should be floats.")
 
         if not isinstance(self._data["pressure"], float):
@@ -52,12 +52,7 @@ class StreamConstructor:
         if sum(self._data["composition"].values()) != 1:
             raise ValueError("Composition does not sum to 1.")
 
-        composition_all_positive = all(
-            self._data["composition"][component] >= 0
-            for component in self._data["composition"].keys()
-        )
-
-        if not composition_all_positive:
+        if check_dict_values_postive(self, "composition"):
             raise ValueError("Composition values should all be positive.")
 
         if self._data["pressure"] < 0:
