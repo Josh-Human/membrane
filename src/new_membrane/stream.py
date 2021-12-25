@@ -21,7 +21,7 @@ class Stream:
     def composition(self, newComposition: Union[dict, list]) -> None:
 
         if isinstance(newComposition, list):
-            if any(value < 0 for value in newComposition):
+            if check_values_positive(newComposition):
                 raise ValueError("New composition values must be positive")
             self._composition_equals_one(newComposition)
 
@@ -71,7 +71,7 @@ class Stream:
     @component_flows.setter
     def component_flows(self, newFlows: Union[dict, list]) -> None:
         if isinstance(newFlows, list):
-            if any(value < 0 for value in newFlows):
+            if check_values_positive(newFlows):
                 raise ValueError("New component flow values must be positive")
 
             self._component_flows.update(zip(self._component_flows, newFlows))
