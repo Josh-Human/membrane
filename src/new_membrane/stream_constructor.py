@@ -6,6 +6,12 @@ from .utils.utils import check_values_positive
 
 
 class StreamConstructor:
+    """Creates Stream object from data file.
+
+    Checks data file for valid data types and values, constructing a Stream object to be returned.
+    :param _stream: Stream object to be returned
+    """
+
     def __init__(self, dir_path: str, file: str) -> None:
         with open(os.path.join(dir_path, file)) as json_file:
             self._data = json.load(json_file)
@@ -14,6 +20,8 @@ class StreamConstructor:
         self._stream = self._constructStream()
 
     def _constructStream(self) -> Stream:
+        "Unpacks data from file and invokes Stream object."
+
         composition = self._data["composition"]
         flow = self._data["flow_rate"]
         temp = self._data["temperature"]
@@ -25,7 +33,13 @@ class StreamConstructor:
         return self._stream
 
     def _check_type(self) -> None:
+        """Checks data file for valid types.
 
+        Checks compoisiton is a dict with str:float entries.
+        Checks pressure, temperature and flow_rate are floats.
+
+        raises TypeError
+        """
         if not isinstance(self._data["composition"], dict):
             raise TypeError("Composition should be type dict.")
 
@@ -47,6 +61,13 @@ class StreamConstructor:
             raise TypeError("Flow rate should be type float.")
 
     def _check_value(self) -> None:
+        """Checks data file for valid values.
+
+        Checks composition sums to 1 and has no negative values.
+        Checks pressure and flowrate are positive.
+
+        raises ValueError
+        """
         if sum(self._data["composition"].values()) != 1:
             raise ValueError("Composition does not sum to 1.")
 
@@ -65,6 +86,7 @@ class StreamConstructor:
         self._check_value()
 
     def _convert_ints(self) -> None:
+        """Converts int values to float."""
         if isinstance(self._data["composition"], dict):
             composition_are_int = all(
                 isinstance(self._data["composition"][component], int)
