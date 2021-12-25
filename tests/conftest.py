@@ -8,28 +8,30 @@ import os
 DIR_PATH = "C:\\Users\\jhuma\\OneDrive\Desktop\python\\new-membrane\\tests\\test_data"
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture()
 def stream():
-    new_stream = StreamConstructor(set_up("stream_data.json")).stream
+    new_stream = StreamConstructor(DIR_PATH, set_up("stream_data.json")).stream
     return new_stream
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture()
 def stream_constructor():
-    new_stream_constructor = StreamConstructor(set_up("stream_data.json"))
+    new_stream_constructor = StreamConstructor(DIR_PATH, set_up("stream_data.json"))
     return new_stream_constructor
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture()
 def membrane():
-    new_membrane = MembraneConstructor(set_up_membrane("membrane_data.json")).membrane
+    new_membrane = MembraneConstructor(
+        DIR_PATH, set_up_membrane("membrane_data.json")
+    ).membrane
     return new_membrane
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture()
 def membrane_constructor():
     new_membrane_constructor = MembraneConstructor(
-        set_up_membrane("membrane_data.json")
+        DIR_PATH, set_up_membrane("membrane_data.json")
     )
     return new_membrane_constructor
 

@@ -1,6 +1,5 @@
 from new_membrane.membrane_constructor import MembraneConstructor
 from new_membrane.membrane import Membrane
-from .conftest import set_up
 
 
 class TestMembraneConstructor:

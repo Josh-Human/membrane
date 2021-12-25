@@ -4,12 +4,10 @@ from typing import Type
 from new_membrane.stream import Stream
 from .utils.utils import check_values_positive
 
-DIR_PATH = "C:\\Users\\jhuma\\OneDrive\Desktop\python\\new-membrane\\tests\\test_data"
-
 
 class StreamConstructor:
-    def __init__(self, file: str) -> None:
-        with open(os.path.join(DIR_PATH, file)) as json_file:
+    def __init__(self, dir_path: str, file: str) -> None:
+        with open(os.path.join(dir_path, file)) as json_file:
             self._data = json.load(json_file)
         self._convert_ints()
         self._check_inputs()

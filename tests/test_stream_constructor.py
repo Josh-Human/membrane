@@ -3,6 +3,8 @@ from new_membrane.stream import Stream
 import pytest
 from .conftest import set_up
 
+DIR_PATH = "C:\\Users\\jhuma\\OneDrive\Desktop\python\\new-membrane\\tests\\test_data"
+
 
 class TestStreamConstructor:
     def test_create_instance(self, stream_constructor):
@@ -16,13 +18,13 @@ class TestStreamInputs:
     def test_sum_composition(self):
         with pytest.raises(ValueError):
             stream = StreamConstructor(
-                set_up("data.json", "composition", {"CO2": 0.7, "N2": 0.5})
+                DIR_PATH, set_up("data.json", "composition", {"CO2": 0.7, "N2": 0.5})
             ).stream
 
     def test_negative_composition(self):
         with pytest.raises(ValueError) as e:
             stream = StreamConstructor(
-                set_up("data.json", "composition", {"CO2": -0.25, "N2": 1.25})
+                DIR_PATH, set_up("data.json", "composition", {"CO2": -0.25, "N2": 1.25})
             ).stream
 
         assert str(e.value) == "Composition values should all be positive."
@@ -30,31 +32,41 @@ class TestStreamInputs:
     def test_composition_is_dict(self):
         with pytest.raises(TypeError) as e:
             stream = StreamConstructor(
-                set_up("data.json", "composition", ["CO2", 0.5, "N2", 0.5])
+                DIR_PATH, set_up("data.json", "composition", ["CO2", 0.5, "N2", 0.5])
             ).stream
 
     def test_composition_values_are_float(self):
         with pytest.raises(TypeError):
             stream = StreamConstructor(
-                set_up("data.json", "composition", {"CO2": "0.5", "N2": 0.5})
+                DIR_PATH, set_up("data.json", "composition", {"CO2": "0.5", "N2": 0.5})
             ).stream
 
     def test_pressure_positive(self):
         with pytest.raises(ValueError):
-            stream = StreamConstructor(set_up("data.json", "pressure", -0.1)).stream
+            stream = StreamConstructor(
+                DIR_PATH, set_up("data.json", "pressure", -0.1)
+            ).stream
 
     def test_flow_positive(self):
         with pytest.raises(ValueError):
-            stream = StreamConstructor(set_up("data.json", "flow_rate", -5)).stream
+            stream = StreamConstructor(
+                DIR_PATH, set_up("data.json", "flow_rate", -5)
+            ).stream
 
     def test_pressure_float(self):
         with pytest.raises(TypeError):
-            stream = StreamConstructor(set_up("data.json", "pressure", "hello")).stream
+            stream = StreamConstructor(
+                DIR_PATH, set_up("data.json", "pressure", "hello")
+            ).stream
 
     def test_temperature_float(self):
         with pytest.raises(TypeError):
-            stream = StreamConstructor(set_up("data.json", "temperature", "2")).stream
+            stream = StreamConstructor(
+                DIR_PATH, set_up("data.json", "temperature", "2")
+            ).stream
 
     def test_flow_float(self):
         with pytest.raises(TypeError):
-            stream = StreamConstructor(set_up("data.json", "flow_rate", "2")).stream
+            stream = StreamConstructor(
+                DIR_PATH, set_up("data.json", "flow_rate", "2")
+            ).stream

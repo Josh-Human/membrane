@@ -3,11 +3,7 @@ import pytest
 from .conftest import set_up
 
 
-@pytest.fixture(autouse=True)
-def stream():
-    new_stream = StreamConstructor(set_up("stream_data.json")).stream
-    print("invoked")
-    return new_stream
+DIR_PATH = "C:\\Users\\jhuma\\OneDrive\Desktop\python\\new-membrane\\tests\\test_data"
 
 
 class TestStreamGet:
