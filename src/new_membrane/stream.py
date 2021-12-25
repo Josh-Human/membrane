@@ -1,5 +1,5 @@
 from typing import Union
-from .utils.utils import check_dict_values_postive
+from .utils.utils import check_values_positive
 
 
 class Stream:
@@ -26,7 +26,7 @@ class Stream:
             self._composition_equals_one(newComposition)
 
         else:
-            if check_dict_values_postive(newComposition):
+            if check_values_positive(newComposition):
                 raise ValueError("New composition values must be positive")
 
             self._composition_equals_one(newComposition)
@@ -76,7 +76,7 @@ class Stream:
 
             self._component_flows.update(zip(self._component_flows, newFlows))
         else:
-            if check_dict_values_postive(newFlows):
+            if check_values_positive(newFlows):
                 raise ValueError("New component flow values must be positive")
             self._component_flows.update(newFlows)
 

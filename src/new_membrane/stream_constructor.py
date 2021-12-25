@@ -2,7 +2,7 @@ import json
 import os
 from typing import Type
 from new_membrane.stream import Stream
-from .utils.utils import check_dict_values_postive
+from .utils.utils import check_values_positive
 
 DIR_PATH = "C:\\Users\\jhuma\\OneDrive\Desktop\python\\new-membrane\\tests\\test_data"
 
@@ -52,7 +52,7 @@ class StreamConstructor:
         if sum(self._data["composition"].values()) != 1:
             raise ValueError("Composition does not sum to 1.")
 
-        if check_dict_values_postive(self._data["composition"]):
+        if check_values_positive(self._data["composition"]):
             raise ValueError("Composition values should all be positive.")
 
         if self._data["pressure"] < 0:
