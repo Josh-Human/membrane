@@ -18,3 +18,10 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+Stream
+======
+
+.. automodule:: new_membrane.stream
+   :members:
+

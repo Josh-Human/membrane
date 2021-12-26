@@ -3,19 +3,19 @@ from .utils.utils import check_values_positive
 
 
 class Stream:
-    """Object representing a ChemEng process stream.
-
-    :param _composition: Dictionary representing components and their        respective molar fraction.
-    :param _flow: value representing molar flow rate
-    :param _temperature: value represnting temperature of stream
-    :param _pressure: value representing sream pressure
-    :param _component_flows: Dictionary represnting components and their respective molar flow rates. Initally calculated using total flow and composition.
-    """
+    """Object representing a ChemEng process stream."""
 
     def __init__(
         self, composition: dict, flow: float, temp: float, pressure: float
     ) -> None:
+        """Initialization of Stream object.
 
+        :param _composition: Dictionary representing components and their       respective molar fraction.
+        :param _flow: value representing molar flow rate
+        :param _temperature: value represnting temperature of stream
+        :param _pressure: value representing sream pressure
+        :param _component_flows: Dictionary represnting components and their    respective molar flow rates. Initally calculated using total flow and composition.
+        """
         self._composition = composition
         self._flow = flow
         self._temperature = temp
@@ -24,14 +24,16 @@ class Stream:
 
     @property
     def composition(self) -> dict:
+        """
+        :getter: gets composition of all components.
+
+        :setter: set composition \n
+                 Takes a dictionary or list and sets composition to values if float and positive. Checks that new composition sums to 1. Updates component flows to ensure consistency.
+        """
         return self._composition
 
     @composition.setter
     def composition(self, newComposition: Union[dict, list]) -> None:
-        """Sets composition.
-
-        Takes a dictionary or list and sets _composition to values if float and positive. Checks that new composition sums to 1. Updates component flows to ensure consistency.
-        """
         self._check_values_and_update("_composition", newComposition)
 
         if sum(self._composition.values()) != 1:
@@ -41,14 +43,16 @@ class Stream:
 
     @property
     def flow(self) -> float:
+        """
+        :getter: gets total flowrate
+
+        :setter: set total flows rate \n
+                 Checks new value is postive and sets flow to it. Updates component flows to ensure consistency
+        """
         return self._flow
 
     @flow.setter
     def flow(self, value: float) -> None:
-        """Sets total flowrate.
-
-        Checks new value is postive and sets flow to it. Updates component flows to ensure consistency.
-        """
         if value < 0:
             raise ValueError("Flow must be positive")
         self._flow = value
@@ -56,6 +60,11 @@ class Stream:
 
     @property
     def temperature(self) -> float:
+        """
+        :getter: get temperature
+
+        :setter: set temperature
+        """
         return self._temperature
 
     @temperature.setter
@@ -64,6 +73,11 @@ class Stream:
 
     @property
     def pressure(self) -> float:
+        """
+        :getter: get temperature
+
+        :setter: set temperature
+        """
         return self._pressure
 
     @pressure.setter
@@ -75,7 +89,7 @@ class Stream:
     def _initial_component_flow(self) -> dict:
         """Calculates inital component flow rates.
 
-        Takes initial composition and flowrate to calculate component flowrates. Returns a dict of component:flowrate.
+        Takes initial composition and flowrate to calculate component flowrates. getss a dict of component:flowrate.
         """
         return dict(
             zip(
@@ -89,14 +103,16 @@ class Stream:
 
     @property
     def component_flows(self) -> dict:
+        """
+        :getter: get component flows
+        :setter: set component flows \n
+                 Takes a dictionary or list and sets component flows to values if float and positive. Updates total flow rate and composition to ensure consistency.
+        """
         return self._component_flows
 
     @component_flows.setter
     def component_flows(self, newFlows: Union[dict, list]) -> None:
-        """Sets component flows.
 
-        Checks input values and sets component flows. Updates total flow rate and composition to ensure consistency.
-        """
         self._check_values_and_update("_component_flows", newFlows)
 
         self._update_flow()
