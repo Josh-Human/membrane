@@ -1,21 +1,25 @@
 import json
 import os
+from numbers import Number as num
 from typing import Type
 from new_membrane.stream import Stream
-from .utils.utils import check_values_positive
+from .utils.utils import check_all_values_number, check_values_positive
 
 
 class StreamConstructor:
     """Creates Stream object from data file.
 
     Checks data file for valid data types and values, constructing a Stream object to be returned.
-    :param _stream: Stream object to be returned
     """
 
     def __init__(self, dir_path: str, file: str) -> None:
+        """Initalizes StreamConstructor from data file.
+
+        :param _stream: Stream object to be returned
+        """
         with open(os.path.join(dir_path, file)) as json_file:
             self._data = json.load(json_file)
-        self._convert_ints()
+        # self._convert_ints()
         self._check_inputs()
         self._stream = self._constructStream()
 
@@ -30,6 +34,9 @@ class StreamConstructor:
 
     @property
     def stream(self) -> Stream:
+        """
+        :getter: get Stream object
+        """
         return self._stream
 
     def _check_type(self) -> None:
@@ -43,22 +50,17 @@ class StreamConstructor:
         if not isinstance(self._data["composition"], dict):
             raise TypeError("Composition should be type dict.")
 
-        compositions_are_float = all(
-            isinstance(self._data["composition"][component], float)
-            for component in self._data["composition"].keys()
-        )
+        if not check_all_values_number(self._data["composition"]):
+            raise TypeError("Composition values should be Numbers.")
 
-        if not compositions_are_float:
-            raise TypeError("composition values should be floats.")
+        if not isinstance(self._data["pressure"], num):
+            raise TypeError("Pressure should be type Number.")
 
-        if not isinstance(self._data["pressure"], float):
-            raise TypeError("Pressure should be type float.")
+        if not isinstance(self._data["temperature"], num):
+            raise TypeError("Temperature should be type Number.")
 
-        if not isinstance(self._data["temperature"], float):
-            raise TypeError("Temperature should be type float.")
-
-        if not isinstance(self._data["flow_rate"], float):
-            raise TypeError("Flow rate should be type float.")
+        if not isinstance(self._data["flow_rate"], num):
+            raise TypeError("Flow rate should be type Number.")
 
     def _check_value(self) -> None:
         """Checks data file for valid values.
@@ -75,13 +77,13 @@ class StreamConstructor:
             raise ValueError("Composition values should all be positive.")
 
         if self._data["pressure"] < 0:
-            raise ValueError("Presure below 0.")
+            raise ValueError("Pressure below 0.")
 
         if self._data["flow_rate"] < 0:
             raise ValueError("Flow rate below 0.")
 
     def _check_inputs(self) -> None:
-
+        """Check data file types and values."""
         self._check_type()
         self._check_value()
 
