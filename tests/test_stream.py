@@ -1,9 +1,4 @@
-from new_membrane.stream_constructor import StreamConstructor
 import pytest
-from .conftest import set_up
-
-
-DIR_PATH = "C:\\Users\\jhuma\\OneDrive\Desktop\python\\new-membrane\\tests\\test_data"
 
 
 class TestStreamGet:
