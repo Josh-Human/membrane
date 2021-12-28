@@ -19,9 +19,12 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+
 Stream
 ======
 
 .. automodule:: new_membrane.stream
    :members:
 
+.. automodule:: new_membrane.stream_constructor
+   :members:
