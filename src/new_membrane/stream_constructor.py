@@ -41,8 +41,8 @@ class StreamConstructor:
     def _check_type(self) -> None:
         """Checks data file for valid types.
 
-        Checks compoisiton is a dict with str:float entries.
-        Checks pressure, temperature and flow_rate are floats.
+        Checks compoisiton is a dict with str:Number entries.
+        Checks pressure, temperature and flow_rate are Numbers.
 
         raises TypeError
         """
@@ -85,23 +85,3 @@ class StreamConstructor:
         """Check data file types and values."""
         self._check_type()
         self._check_value()
-
-    def _convert_ints(self) -> None:
-        """Converts int values to float."""
-        if isinstance(self._data["composition"], dict):
-            composition_are_int = all(
-                isinstance(self._data["composition"][component], int)
-                for component in self._data["composition"].keys()
-            )
-            if composition_are_int:
-                for k, v in self._data["composition"]:
-                    self._data["composition"][k] = float(v)
-
-        if isinstance(self._data["pressure"], int):
-            self._data["pressure"] = float(self._data["pressure"])
-
-        if isinstance(self._data["temperature"], int):
-            self._data["temperature"] = float(self._data["temperature"])
-
-        if isinstance(self._data["flow_rate"], int):
-            self._data["flow_rate"] = float(self._data["flow_rate"])
