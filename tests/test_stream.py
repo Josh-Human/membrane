@@ -2,7 +2,7 @@ import pytest
 
 
 class TestStreamGet:
-    def test_get_composition(self, stream):
+    def test_get_all_compositions(self, stream):
         assert stream.composition == {"CO2": 0.5, "N2": 0.5}
 
     def test_get_flow(self, stream):
@@ -14,7 +14,7 @@ class TestStreamGet:
     def test_get_pressure(self, stream):
         assert stream.pressure == 1.0
 
-    def test_get_component(self, stream):
+    def test_get_single_composition(self, stream):
         assert stream.composition["CO2"] == 0.5
         with pytest.raises(KeyError):
             stream.composition["H2O"]

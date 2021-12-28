@@ -1,5 +1,5 @@
 from typing import Union
-from .utils.utils import check_values_positive
+from .utils.utils import check_values_positive, check_and_update
 
 
 class Stream:
@@ -34,7 +34,7 @@ class Stream:
 
     @composition.setter
     def composition(self, newComposition: Union[dict, list]) -> None:
-        self._check_values_and_update("_composition", newComposition)
+        check_and_update(self, "_composition", newComposition)
 
         if sum(self._composition.values()) != 1:
             raise ValueError("New composition must equal 1")
@@ -113,7 +113,7 @@ class Stream:
     @component_flows.setter
     def component_flows(self, newFlows: Union[dict, list]) -> None:
 
-        self._check_values_and_update("_component_flows", newFlows)
+        check_and_update(self, "_component_flows", newFlows)
 
         self._update_flow()
         self._update_composition()
@@ -154,16 +154,3 @@ class Stream:
         When component flows are changed this method is called to update total flow to ensure consistency.
         """
         self._flow = sum(self._component_flows.values())
-
-    def _check_values_and_update(self, attr: str, newValues: Union[list, dict]) -> None:
-        """General method to check validity of input & updates a dict attribute.
-
-        Takes a dictionary attribute to update, and a list or dict to update to. Checks are done to ensure values in list and dict are valid and then attribute is updated.
-        """
-        if not check_values_positive(newValues):
-            raise ValueError("New values must be positive")
-
-        if isinstance(newValues, list):
-            getattr(self, attr).update(zip(getattr(self, attr), newValues))
-        else:
-            getattr(self, attr).update(newValues)

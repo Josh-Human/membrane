@@ -14,7 +14,15 @@ def check_all_values_number(obj: Union[list, dict]) -> bool:
     return all(isinstance(v, num) for v in iter(obj.values()))
 
 
-# compositions_are_num = all(
-#     isinstance(self._data["composition"][component], num)
-#     for component in self._data["composition"].keys()
-# )
+def check_and_update(self, attr: str, newValues: Union[list, dict]) -> None:
+    """General method to check validity of input & updates a dict attribute.
+
+    Takes a dictionary attribute to update, and a list or dict to update to. Checks are done to ensure values in list and dict are valid and then attribute is updated.
+    """
+    if not check_values_positive(newValues):
+        raise ValueError("New values must be positive")
+
+    if isinstance(newValues, list):
+        getattr(self, attr).update(zip(getattr(self, attr), newValues))
+    else:
+        getattr(self, attr).update(newValues)
