@@ -19,7 +19,6 @@ class StreamConstructor:
         """
         with open(os.path.join(dir_path, file)) as json_file:
             self._data = json.load(json_file)
-        # self._convert_ints()
         self._check_inputs()
         self._stream = self._constructStream()
 
@@ -73,7 +72,7 @@ class StreamConstructor:
         if sum(self._data["composition"].values()) != 1:
             raise ValueError("Composition does not sum to 1.")
 
-        if check_values_positive(self._data["composition"]):
+        if not check_values_positive(self._data["composition"]):
             raise ValueError("Composition values should all be positive.")
 
         if self._data["pressure"] < 0:

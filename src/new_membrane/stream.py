@@ -160,7 +160,7 @@ class Stream:
 
         Takes a dictionary attribute to update, and a list or dict to update to. Checks are done to ensure values in list and dict are valid and then attribute is updated.
         """
-        if check_values_positive(newValues):
+        if not check_values_positive(newValues):
             raise ValueError("New values must be positive")
 
         if isinstance(newValues, list):
