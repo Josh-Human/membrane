@@ -2,7 +2,7 @@ import json
 import os
 from numbers import Number as num
 from typing import Type
-from new_membrane.components.stream import Stream
+from ..components import Stream
 from ..utils.utils import check_all_values_number, check_values_positive
 
 

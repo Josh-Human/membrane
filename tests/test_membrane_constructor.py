@@ -1,5 +1,5 @@
-from new_membrane.components.membrane_constructor import MembraneConstructor
-from new_membrane.components.membrane import Membrane
+from new_membrane.components import MembraneConstructor
+from new_membrane.components import Membrane
 import pytest
 from .conftest import set_up_membrane
 

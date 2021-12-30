@@ -1,6 +1,6 @@
 import pytest
-from new_membrane.stream_constructor import StreamConstructor
-from new_membrane.membrane_constructor import MembraneConstructor
+from new_membrane.components import StreamConstructor
+from new_membrane.components import MembraneConstructor
 
 import json
 import os

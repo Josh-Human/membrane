@@ -1,6 +1,6 @@
 import json
 import os
-from new_membrane.components.membrane import Membrane
+from ..components import Membrane
 from numbers import Number as num
 from ..utils.utils import check_all_values_number, check_values_positive
 
