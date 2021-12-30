@@ -21,6 +21,7 @@ class TestCompleteMixTwo:
 class TestCompleteMixTwoGet:
     membrane_file = "membrane_data.json"
     stream_file = "stream_data.json"
+    stream_file_out = "stream_data_out.json"
 
     stream_data_in = {
         "composition": {"CO2": 0.5, "N2": 0.5},
@@ -34,12 +35,13 @@ class TestCompleteMixTwoGet:
         "temperature": 50.0,
         "pressure": 80,
     }
+    membrane_data = {"permeability": {"CO2": 10, "N2": 5}, "area": 500, "dA": 10}
 
     model = CompleteMixTwo(
         DIR_PATH,
         set_up(stream_file, "data", stream_data_in),
-        set_up(stream_file, "data", stream_data_out),
-        set_up_membrane(membrane_file),
+        set_up(stream_file_out, "data", stream_data_out),
+        set_up_membrane(membrane_file, "data", membrane_data),
     )
 
     def test_get_xf(self):
@@ -47,3 +49,6 @@ class TestCompleteMixTwoGet:
 
     def test_get_xo(self):
         assert self.model.xo == 0.25
+
+    def test_get_alpha(self):
+        assert self.model.alpha == 2
