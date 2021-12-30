@@ -1,7 +1,7 @@
 from new_membrane.components.stream_constructor import StreamConstructor
 from new_membrane.components.stream import Stream
 import pytest
-from .conftest import set_up
+from ..conftest import set_up
 
 DIR_PATH = "C:\\Users\\jhuma\\OneDrive\Desktop\python\\new-membrane\\tests\\test_data"
 
