@@ -154,3 +154,7 @@ class Stream:
         When component flows are changed this method is called to update total flow to ensure consistency.
         """
         self._flow = sum(self._component_flows.values())
+
+
+if __name__ == "__main__":
+    pass

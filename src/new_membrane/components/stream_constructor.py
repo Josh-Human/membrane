@@ -85,3 +85,7 @@ class StreamConstructor:
         """Check data file types and values."""
         self._check_type()
         self._check_value()
+
+
+if __name__ == "__main__":
+    pass

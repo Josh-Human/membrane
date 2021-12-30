@@ -80,3 +80,7 @@ class MembraneConstructor:
 
         if self._data["area"] < self._data["dA"]:
             raise ValueError("dA should be smaller than area.")
+
+
+if __name__ == "__main__":
+    pass

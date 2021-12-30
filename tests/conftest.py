@@ -61,3 +61,7 @@ def set_up(file, key=None, value=None):
         json.dump(data, json_file)
 
     return file
+
+
+if __name__ == "__main__":
+    pass

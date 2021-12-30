@@ -1,7 +1,7 @@
 from new_membrane.components import MembraneConstructor
 from new_membrane.components import Membrane
 import pytest
-from ..conftest import set_up_membrane
+from tests.conftest import set_up_membrane
 
 
 DIR_PATH = "C:\\Users\\jhuma\\OneDrive\Desktop\python\\new-membrane\\tests\\test_data"

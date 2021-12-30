@@ -44,3 +44,7 @@ class Membrane:
         :getter: gets number of stages
         """
         return self._no_stages
+
+
+if __name__ == "__main__":
+    pass
