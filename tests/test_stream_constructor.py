@@ -1,5 +1,5 @@
-from new_membrane.stream_constructor import StreamConstructor
-from new_membrane.stream import Stream
+from new_membrane.components.stream_constructor import StreamConstructor
+from new_membrane.components.stream import Stream
 import pytest
 from .conftest import set_up
 

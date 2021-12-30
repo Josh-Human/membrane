@@ -1,5 +1,5 @@
 from typing import Union
-from .utils.utils import check_values_positive, check_and_update
+from ..utils.utils import check_and_update
 
 
 class Stream:

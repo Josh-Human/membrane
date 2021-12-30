@@ -2,8 +2,8 @@ import json
 import os
 from numbers import Number as num
 from typing import Type
-from new_membrane.stream import Stream
-from .utils.utils import check_all_values_number, check_values_positive
+from new_membrane.components.stream import Stream
+from ..utils.utils import check_all_values_number, check_values_positive
 
 
 class StreamConstructor:

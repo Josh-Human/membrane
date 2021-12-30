@@ -1,10 +1,10 @@
-from .utils.utils import check_and_update
+from ..utils.utils import check_and_update
 
 
 class Membrane:
     """Object representing a membrane."""
 
-    def __init__(self, permeability: dict, area: float, dA: float):
+    def __init__(self, permeability: dict = None, area: float = None, dA: float = None):
         """Initialization of Membrane object.
 
         :param _permeability: Dictionary representing components and their       respective permeability.
