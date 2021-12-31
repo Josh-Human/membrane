@@ -16,6 +16,7 @@ class Membrane:
         self._area = area
         self._dA = dA
         self._no_stages = area / dA
+        self._thickness = 0.00254
 
     @property
     def permeability(self):
@@ -44,6 +45,13 @@ class Membrane:
         :getter: gets number of stages
         """
         return self._no_stages
+
+    @property
+    def thickness(self):
+        """
+        :getter: gets membrane thickness
+        """
+        return self._thickness
 
 
 if __name__ == "__main__":

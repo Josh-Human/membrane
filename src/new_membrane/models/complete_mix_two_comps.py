@@ -1,6 +1,7 @@
 from new_membrane import components
 from new_membrane.components import StreamConstructor
 from new_membrane.components import MembraneConstructor
+import math
 
 
 class CompleteMixTwo:
@@ -28,7 +29,7 @@ class CompleteMixTwo:
             / list(self._membrane.permeability.values())[1]
         )
 
-        pr = self._input_stream.pressure / self._permeate_stream.pressure
+        pr = self._permeate_stream.pressure / self._input_stream.pressure
 
         yp = list(self._permeate_stream.composition.values())[0]
 
@@ -72,6 +73,39 @@ class CompleteMixTwo:
     @property
     def cut(self):
         return self._sys_vars["cut"]
+
+    def calculate_cut(self):
+        a = 1 - self._sys_vars["alpha"]
+
+        b = (
+            -1
+            + self._sys_vars["alpha"]
+            + 1 / self._sys_vars["pr"]
+            + (self._sys_vars["xo"] / self._sys_vars["pr"])
+            * (self._sys_vars["alpha"] - 1)
+        )
+
+        c = (-self._sys_vars["alpha"] * self._sys_vars["xo"]) / self._sys_vars["pr"]
+
+        self._sys_vars["yp"] = (-b + math.sqrt((b ** 2) - 4 * a * c)) / (2 * a)
+
+        self._sys_vars["cut"] = (self._sys_vars["xf"] - self._sys_vars["xo"]) / (
+            self._sys_vars["yp"] - self._sys_vars["xo"]
+        )
+
+        return self._sys_vars["cut"]
+
+    def calculate_area(self):
+        self._sys_vars["area"] = (
+            self._sys_vars["cut"] * self._input_stream.flow * self._sys_vars["yp"]
+        ) / (
+            (list(self._membrane.permeability.values())[0] / self._membrane.thickness)
+            * (
+                self._input_stream.pressure * self._sys_vars["xo"]
+                - self._permeate_stream.pressure * self._sys_vars["yp"]
+            )
+        )
+        return self._sys_vars["area"]
 
 
 if __name__ == "__main__":
