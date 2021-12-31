@@ -32,6 +32,8 @@ class CompleteMixTwo:
 
         yp = list(self._permeate_stream.composition.values())[0]
 
+        cut = self._permeate_stream.flow / self._output_stream.flow
+
         area = self._membrane.area
         return {
             "xf": (xf if xf else 0),
@@ -40,6 +42,7 @@ class CompleteMixTwo:
             "pr": pr,
             "yp": yp,
             "area": (area if area else 0),
+            "cut": cut,
         }
 
     @property
@@ -65,6 +68,10 @@ class CompleteMixTwo:
     @property
     def area(self):
         return self._sys_vars["area"]
+
+    @property
+    def cut(self):
+        return self._sys_vars["cut"]
 
 
 if __name__ == "__main__":

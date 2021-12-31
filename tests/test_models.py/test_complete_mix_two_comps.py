@@ -33,7 +33,7 @@ class TestCompleteMixTwoGet:
     }
     stream_data_out = {
         "composition": {"CO2": 0.25, "N2": 0.75},
-        "flow_rate": 0,
+        "flow_rate": 10,
         "temperature": 50.0,
         "pressure": 80,
     }
@@ -70,3 +70,6 @@ class TestCompleteMixTwoGet:
 
     def test_get_area(self):
         assert self.model.area == 500
+
+    def test_get_cut(self):
+        assert self.model.cut == 0
