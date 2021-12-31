@@ -67,3 +67,9 @@ class TestCompleteMixGet:
 
     def test_get_cut(self):
         assert self.model.cut == 0
+
+    def test_get_pl(self):
+        assert self.model.pl == 300
+
+    def test_get_ph(self):
+        assert self.model.ph == 30

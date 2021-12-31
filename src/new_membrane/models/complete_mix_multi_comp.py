@@ -43,6 +43,14 @@ class CompleteMix:
     def cut(self):
         return self._known_vars["cut"]
 
+    @property
+    def pl(self):
+        return self._feed_stream.pressure
+
+    @property
+    def ph(self):
+        return self._permeate_stream.pressure
+
     def _unpack_known_vars(self) -> dict:
         """Unpacks and calculates system variables from Streams & Membrane.
 
