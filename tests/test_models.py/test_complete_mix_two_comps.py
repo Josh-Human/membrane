@@ -13,6 +13,7 @@ class TestCompleteMixTwo:
             DIR_PATH,
             set_up(self.stream_file),
             set_up(self.stream_file),
+            set_up(self.stream_file),
             set_up_membrane(self.membrane_file),
         )
         assert isinstance(model, CompleteMixTwo)
@@ -62,4 +63,4 @@ class TestCompleteMixTwoGet:
         assert self.model.alpha == 2
 
     def test_get_pr(self):
-        assert self.model.pr == 1.8
+        assert self.model.pr == 1.6

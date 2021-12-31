@@ -28,10 +28,13 @@ class CompleteMixTwo:
             / list(self._membrane.permeability.values())[1]
         )
 
+        pr = self._input_stream.pressure / self._permeate_stream.pressure
+
         return {
             "xf": (composition_in[0] if composition_in[0] else 0),
             "xo": (composition_out[0] if composition_out[0] else 0),
             "alpha": alpha,
+            "pr": pr,
         }
 
     @property
@@ -45,6 +48,10 @@ class CompleteMixTwo:
     @property
     def alpha(self):
         return self._sys_vars["alpha"]
+
+    @property
+    def pr(self):
+        return self._sys_vars["pr"]
 
 
 if __name__ == "__main__":
