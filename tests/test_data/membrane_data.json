@@ -1,1 +1,1 @@
-{"permeability": {"A": 2e-08, "B": 5e-09, "C": 2.5e-09}, "area": 500, "dA": 10, "thickness": 0.00254}
+{"permeability": {"CO2": 5, "N2": 5}, "area": 500, "dA": 10, "thickness": 0.001}

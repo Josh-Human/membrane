@@ -51,6 +51,10 @@ class CompleteMix:
     def ph(self):
         return self._permeate_stream.pressure
 
+    @property
+    def permeabilities(self):
+        return self._membrane.permeability
+
     def _unpack_known_vars(self) -> dict:
         """Unpacks and calculates system variables from Streams & Membrane.
 

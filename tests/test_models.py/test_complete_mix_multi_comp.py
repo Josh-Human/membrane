@@ -73,3 +73,6 @@ class TestCompleteMixGet:
 
     def test_get_ph(self):
         assert self.model.ph == 30
+
+    def test_get_permeabilities(self):
+        assert self.model.permeabilities == {"A": 200e-10, "B": 50e-10, "C": 25e-10}
