@@ -86,6 +86,10 @@ class TestCompleteMixTwoGet:
 
 
 class TestCompleMixTwoCaseOne:
+    """
+    Transport Processes and Separation Process Principles (Includes Unit Operations) Fourth Edition 13.4-1
+    """
+
     membrane_file = "membrane_data.json"
     stream_file = "stream_data.json"
     stream_file_out = "stream_data_out.json"
@@ -133,6 +137,10 @@ class TestCompleMixTwoCaseOne:
 
 
 class TestCompleMixTwoCaseTwo:
+    """
+    Transport Processes and Separation Process Principles (Includes Unit Operations) Fourth Edition 13.4-2
+    """
+
     membrane_file = "membrane_data.json"
     stream_file = "stream_data.json"
     stream_file_out = "stream_data_out.json"
@@ -179,3 +187,50 @@ class TestCompleMixTwoCaseTwo:
         self.model.cut = 0.2
         self.model.calculate_xo()
         assert self.model.calculate_area() == pytest.approx(322800000, 100000)
+
+
+class TestCompleMixTwoCaseTwo:
+    """
+    Transport Processes and Separation Process Principles (Includes Unit Operations) Fourth Edition 13.4-3
+    """
+
+    membrane_file = "membrane_data.json"
+    stream_file = "stream_data.json"
+    stream_file_out = "stream_data_out.json"
+    permeate_stream_file = "permeate_stream_data.json"
+
+    stream_data_in = {
+        "composition": {"CO2": 0.5, "N2": 0.5},
+        "flow_rate": 1000000.0,
+        "temperature": 190.0,
+        "pressure": 80,
+    }
+    stream_data_out = {
+        "composition": {"CO2": 0.25, "N2": 0.75},
+        "flow_rate": 10,
+        "temperature": 50.0,
+        "pressure": 190,
+    }
+    permeate_stream_data = {
+        "composition": {"CO2": 0.1, "N2": 0},
+        "flow_rate": 0,
+        "temperature": 50.0,
+        "pressure": 20,
+    }
+    membrane_data = {
+        "permeability": {"CO2": 500e-10, "N2": 50e-10},
+        "area": 500,
+        "dA": 10,
+        "thickness": 0.001,
+    }
+
+    model = CompleteMixTwo(
+        DIR_PATH,
+        set_up(stream_file, "data", stream_data_in),
+        set_up(stream_file_out, "data", stream_data_out),
+        set_up(permeate_stream_file, "data", permeate_stream_data),
+        set_up_membrane(membrane_file, "data", membrane_data),
+    )
+
+    def test_calculate_minimum_reject(self):
+        assert self.model.calculate_min_reject() == pytest.approx(0.1932, 0.0001)

@@ -1,1 +1,1 @@
-{"composition": {"CO2": 0.209, "N2": 0.791}, "flow_rate": 1000000.0, "temperature": 190.0, "pressure": 190}
+{"composition": {"CO2": 0.5, "N2": 0.5}, "flow_rate": 1000000.0, "temperature": 190.0, "pressure": 80}

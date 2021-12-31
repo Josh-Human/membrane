@@ -143,6 +143,20 @@ class CompleteMixTwo:
 
         return self._sys_vars["xo"]
 
+    def calculate_min_reject(self):
+        self._sys_vars["xo"] = (
+            self._sys_vars["xf"]
+            * (
+                1
+                + (self._sys_vars["alpha"] - 1)
+                * self._sys_vars["pr"]
+                * (1 - self._sys_vars["xf"])
+            )
+        ) / (
+            self._sys_vars["alpha"] * (1 - self._sys_vars["xf"]) + self._sys_vars["xf"]
+        )
+        return self._sys_vars["xo"]
+
 
 if __name__ == "__main__":
     pass
