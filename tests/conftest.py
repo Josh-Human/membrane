@@ -38,7 +38,12 @@ def membrane_constructor():
 
 def set_up_membrane(file, key=None, value=None):
     with open(os.path.join(DIR_PATH, file), "w+") as json_file:
-        data = {"permeability": {"CO2": 5, "N2": 5}, "area": 500, "dA": 10}
+        data = {
+            "permeability": {"CO2": 5, "N2": 5},
+            "area": 500,
+            "dA": 10,
+            "thickness": 0.001,
+        }
         if key == "data":
             data = value
         elif key:

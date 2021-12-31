@@ -44,7 +44,12 @@ class TestCompleteMixTwoGet:
         "temperature": 50.0,
         "pressure": 50,
     }
-    membrane_data = {"permeability": {"CO2": 10, "N2": 5}, "area": 500, "dA": 10}
+    membrane_data = {
+        "permeability": {"CO2": 10, "N2": 5},
+        "area": 500,
+        "dA": 10,
+        "thickness": 0.001,
+    }
 
     model = CompleteMixTwo(
         DIR_PATH,
@@ -76,7 +81,7 @@ class TestCompleteMixTwoGet:
         assert self.model.cut == 0
 
 
-class TestCompleMixTwoCalculateCut:
+class TestCompleMixTwoCaseOne:
     membrane_file = "membrane_data.json"
     stream_file = "stream_data.json"
     stream_file_out = "stream_data_out.json"
@@ -104,6 +109,7 @@ class TestCompleMixTwoCalculateCut:
         "permeability": {"CO2": 50e-10, "N2": 5e-10},
         "area": 500,
         "dA": 10,
+        "thickness": 0.00254,
     }
 
     model = CompleteMixTwo(
@@ -120,3 +126,43 @@ class TestCompleMixTwoCalculateCut:
     def test_calculate_area(self):
         self.model.calculate_cut()
         assert self.model.calculate_area() == pytest.approx(273500000, 100000)
+
+
+class TestCompleMixTwoCaseTwo:
+    membrane_file = "membrane_data.json"
+    stream_file = "stream_data.json"
+    stream_file_out = "stream_data_out.json"
+    permeate_stream_file = "permeate_stream_data.json"
+
+    stream_data_in = {
+        "composition": {"CO2": 0.5, "N2": 0.5},
+        "flow_rate": 10000.0,
+        "temperature": 50.0,
+        "pressure": 80,
+    }
+    stream_data_out = {
+        "composition": {"CO2": 0.25, "N2": 0.75},
+        "flow_rate": 10,
+        "temperature": 50.0,
+        "pressure": 80,
+    }
+    permeate_stream_data = {
+        "composition": {"CO2": 0.1, "N2": 0},
+        "flow_rate": 0,
+        "temperature": 50.0,
+        "pressure": 20,
+    }
+    membrane_data = {
+        "permeability": {"CO2": 500e-10, "N2": 5e-10},
+        "area": 500,
+        "dA": 10,
+        "thickness": 0.001,
+    }
+
+    model = CompleteMixTwo(
+        DIR_PATH,
+        set_up(stream_file, "data", stream_data_in),
+        set_up(stream_file_out, "data", stream_data_out),
+        set_up(permeate_stream_file, "data", permeate_stream_data),
+        set_up_membrane(membrane_file, "data", membrane_data),
+    )

@@ -27,7 +27,8 @@ class MembraneConstructor:
         permeability = self._data["permeability"]
         area = self._data["area"]
         dA = self._data["dA"]
-        return Membrane(permeability, area, dA)
+        thickness = self._data["thickness"]
+        return Membrane(permeability, area, dA, thickness)
 
     @property
     def membrane(self) -> Membrane:

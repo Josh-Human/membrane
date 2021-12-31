@@ -4,7 +4,13 @@ from new_membrane.utils.utils import check_and_update
 class Membrane:
     """Object representing a membrane."""
 
-    def __init__(self, permeability: dict = None, area: float = None, dA: float = None):
+    def __init__(
+        self,
+        permeability: dict = None,
+        area: float = None,
+        dA: float = None,
+        thickness: float = None,
+    ):
         """Initialization of Membrane object.
 
         :param _permeability: Dictionary representing components and their       respective permeability.
@@ -16,7 +22,7 @@ class Membrane:
         self._area = area
         self._dA = dA
         self._no_stages = area / dA
-        self._thickness = 0.00254
+        self._thickness = thickness
 
     @property
     def permeability(self):
