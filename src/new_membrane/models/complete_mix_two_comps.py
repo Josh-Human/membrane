@@ -121,7 +121,10 @@ class CompleteMixTwo:
     def calculate_cut(self) -> float:
         """Find cut value given xf, xo, alpha and pl/ph.
 
-        Calculates yp using root of quadratic equation. This is then used to solve for cut. Details of equations used may be found in Class docstring."""
+        Calculates yp using root of quadratic equation. This is then used to solve for cut.
+
+        Details of equations used may be found in Class docstring.
+        """
         a = 1 - self._sys_vars["alpha"]
 
         b = (
@@ -145,7 +148,9 @@ class CompleteMixTwo:
     def calculate_xo(self) -> float:
         """Find cut value given xf, θ, alpha and pl/ph.
 
-        Calculates yp using root of quadratic equation. This is then used to solve for xo. Details of equations used may be found in Class docstring."""
+        Calculates yp using root of quadratic equation. This is then used to solve for xo.
+
+        Details of equations used may be found in Class docstring."""
         a = (
             self._sys_vars["cut"]
             + self._sys_vars["pr"]
@@ -181,6 +186,8 @@ class CompleteMixTwo:
         """Calculates total membrane area in cm^2.
 
         May be called after calculate_xo() or calculate_cut().
+
+        Details of equations used may be found in Class docstring.
         """
         self._sys_vars["area"] = (
             self._sys_vars["cut"] * self._feed_stream.flow * self._sys_vars["yp"]
@@ -197,6 +204,8 @@ class CompleteMixTwo:
         """Given xf, alpha and pl/ph calculates xo.
 
         Calculates the minimum reject composition based on the feed flow and other system properties. Even with an infintely large membrane the reject can not go below this value for a given composition, however a cascade or plug flow system may be used.
+
+        Details of equations used may be found in Class docstring.
         """
         self._sys_vars["xo"] = (
             self._sys_vars["xf"]

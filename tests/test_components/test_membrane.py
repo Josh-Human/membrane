@@ -18,6 +18,9 @@ class TestMembraneGet:
     def test_get_no_stages(self, membrane):
         assert membrane.stages == 50
 
+    def test_get_thickness(self, membrane):
+        assert membrane.thickness == 0.001
+
 
 class TestMembraneSet:
     def test_set_permeability_dict(self, membrane):
