@@ -8,7 +8,9 @@ class CompleteMixTwo:
     Transport Processes and Separation Process Principles (Includes Unit Operations) Fourth Edition 13.4
     """
 
-    def __init__(self, dir, input_stream, output_stream, membrane) -> None:
+    def __init__(
+        self, dir, input_stream, output_stream, permeate_stream, membrane
+    ) -> None:
         self._input_stream = StreamConstructor(dir, input_stream).stream
         self._output_stream = StreamConstructor(dir, output_stream).stream
         self._membrane = MembraneConstructor(dir, membrane).membrane

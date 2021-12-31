@@ -1,8 +1,8 @@
 import json
 import os
-from ..components import Membrane
+from new_membrane.components.membrane import Membrane
 from numbers import Number as num
-from ..utils.utils import check_all_values_number, check_values_positive
+from new_membrane.utils.utils import check_all_values_number, check_values_positive
 
 
 class MembraneConstructor:
@@ -36,26 +36,6 @@ class MembraneConstructor:
         """
         return self._membrane
 
-    def _check_type(self) -> None:
-        """Checks data file for valid types.
-
-        Checks permeability is a dict with str:Number entries.
-        Checks area and dA are Numbers.
-
-        raises TypeError
-        """
-        if not isinstance(self._data["permeability"], dict):
-            raise TypeError("Permeability should be type dict.")
-
-        if not check_all_values_number(self._data["permeability"]):
-            raise TypeError("Permeability values should be Numbers.")
-
-        if not isinstance(self._data["area"], num):
-            raise TypeError("Area should be type Number.")
-
-        if not isinstance(self._data["dA"], num):
-            raise TypeError("dA should be type Number.")
-
     def _check_value(self) -> None:
         """Checks data file for valid values.
 
@@ -75,7 +55,7 @@ class MembraneConstructor:
             raise ValueError("dA should be positive.")
 
     def _check_input(self):
-        self._check_type()
+        # self._check_type()
         self._check_value()
 
         if self._data["area"] < self._data["dA"]:
@@ -84,3 +64,23 @@ class MembraneConstructor:
 
 if __name__ == "__main__":
     pass
+
+# def _check_type(self) -> None:
+#     """Checks data file for valid types.
+
+#     Checks permeability is a dict with str:Number entries.
+#     Checks area and dA are Numbers.
+
+#     raises TypeError
+#     """
+#     if not isinstance(self._data["permeability"], dict):
+#         raise TypeError("Permeability should be type dict.")
+
+#     if not check_all_values_number(self._data["permeability"]):
+#         raise TypeError("Permeability values should be Numbers.")
+
+#     if not isinstance(self._data["area"], num):
+#         raise TypeError("Area should be type Number.")
+
+# if not isinstance(self._data["dA"], num):
+#     raise TypeError("dA should be type Number.")

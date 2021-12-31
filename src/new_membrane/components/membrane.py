@@ -1,4 +1,4 @@
-from ..utils.utils import check_and_update
+from new_membrane.utils.utils import check_and_update
 
 
 class Membrane:

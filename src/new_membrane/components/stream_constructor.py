@@ -2,8 +2,8 @@ import json
 import os
 from numbers import Number as num
 from typing import Type
-from ..components import Stream
-from ..utils.utils import check_all_values_number, check_values_positive
+from new_membrane.components import Stream
+from new_membrane.utils.utils import check_all_values_number, check_values_positive
 
 
 class StreamConstructor:
@@ -69,8 +69,8 @@ class StreamConstructor:
 
         raises ValueError
         """
-        if sum(self._data["composition"].values()) != 1:
-            raise ValueError("Composition does not sum to 1.")
+        # if sum(self._data["composition"].values()) != 1:
+        #     raise ValueError("Composition does not sum to 1.")
 
         if not check_values_positive(self._data["composition"]):
             raise ValueError("Composition values should all be positive.")
