@@ -67,3 +67,6 @@ class TestCompleteMixTwoGet:
 
     def test_get_yp(self):
         assert self.model.yp == 0.1
+
+    def test_get_area(self):
+        assert self.model.area == 500

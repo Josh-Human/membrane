@@ -19,9 +19,9 @@ class CompleteMixTwo:
 
     def _unpack_sys_vars(self):
 
-        composition_in = list(self._input_stream.composition.values())
+        xf = list(self._input_stream.composition.values())[0]
 
-        composition_out = list(self._output_stream.composition.values())
+        xo = list(self._output_stream.composition.values())[0]
 
         alpha = (
             list(self._membrane.permeability.values())[0]
@@ -32,12 +32,14 @@ class CompleteMixTwo:
 
         yp = list(self._permeate_stream.composition.values())[0]
 
+        area = self._membrane.area
         return {
-            "xf": (composition_in[0] if composition_in[0] else 0),
-            "xo": (composition_out[0] if composition_out[0] else 0),
+            "xf": (xf if xf else 0),
+            "xo": (xo if xo else 0),
             "alpha": alpha,
             "pr": pr,
             "yp": yp,
+            "area": (area if area else 0),
         }
 
     @property
@@ -59,6 +61,10 @@ class CompleteMixTwo:
     @property
     def yp(self):
         return self._sys_vars["yp"]
+
+    @property
+    def area(self):
+        return self._sys_vars["area"]
 
 
 if __name__ == "__main__":
