@@ -74,6 +74,10 @@ class CompleteMixTwo:
     def cut(self):
         return self._sys_vars["cut"]
 
+    @cut.setter
+    def cut(self, value):
+        self._sys_vars["cut"] = value
+
     def calculate_cut(self):
         a = 1 - self._sys_vars["alpha"]
 
@@ -106,6 +110,38 @@ class CompleteMixTwo:
             )
         )
         return self._sys_vars["area"]
+
+    def calculate_xo(self):
+        a = (
+            self._sys_vars["cut"]
+            + self._sys_vars["pr"]
+            - self._sys_vars["pr"] * self._sys_vars["cut"]
+            - self._sys_vars["alpha"] * self._sys_vars["cut"]
+            - self._sys_vars["alpha"] * self._sys_vars["pr"]
+            + self._sys_vars["alpha"] * self._sys_vars["pr"] * self._sys_vars["cut"]
+        )
+
+        b = (
+            1
+            - self._sys_vars["cut"]
+            - self._sys_vars["xf"]
+            - self._sys_vars["pr"]
+            + self._sys_vars["pr"] * self._sys_vars["cut"]
+            + self._sys_vars["alpha"] * self._sys_vars["cut"]
+            + self._sys_vars["alpha"] * self._sys_vars["pr"]
+            - self._sys_vars["alpha"] * self._sys_vars["pr"] * self._sys_vars["cut"]
+            + self._sys_vars["alpha"] * self._sys_vars["xf"]
+        )
+
+        c = -self._sys_vars["alpha"] * self._sys_vars["xf"]
+
+        self._sys_vars["yp"] = (-b + math.sqrt((b ** 2) - 4 * a * c)) / (2 * a)
+
+        self._sys_vars["xo"] = (
+            self._sys_vars["xf"] - self._sys_vars["cut"] * self._sys_vars["yp"]
+        ) / (1 - self._sys_vars["cut"])
+
+        return self._sys_vars["xo"]
 
 
 if __name__ == "__main__":

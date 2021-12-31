@@ -80,6 +80,10 @@ class TestCompleteMixTwoGet:
     def test_get_cut(self):
         assert self.model.cut == 0
 
+    def test_set_cut(self):
+        self.model.cut = 0.5
+        assert self.model.cut == 0.5
+
 
 class TestCompleMixTwoCaseOne:
     membrane_file = "membrane_data.json"
@@ -136,24 +140,24 @@ class TestCompleMixTwoCaseTwo:
 
     stream_data_in = {
         "composition": {"CO2": 0.5, "N2": 0.5},
-        "flow_rate": 10000.0,
-        "temperature": 50.0,
+        "flow_rate": 1000000.0,
+        "temperature": 190.0,
         "pressure": 80,
     }
     stream_data_out = {
         "composition": {"CO2": 0.25, "N2": 0.75},
         "flow_rate": 10,
         "temperature": 50.0,
-        "pressure": 80,
+        "pressure": 190,
     }
     permeate_stream_data = {
         "composition": {"CO2": 0.1, "N2": 0},
         "flow_rate": 0,
         "temperature": 50.0,
-        "pressure": 20,
+        "pressure": 19,
     }
     membrane_data = {
-        "permeability": {"CO2": 500e-10, "N2": 5e-10},
+        "permeability": {"CO2": 500e-10, "N2": 50e-10},
         "area": 500,
         "dA": 10,
         "thickness": 0.001,
@@ -166,3 +170,7 @@ class TestCompleMixTwoCaseTwo:
         set_up(permeate_stream_file, "data", permeate_stream_data),
         set_up_membrane(membrane_file, "data", membrane_data),
     )
+
+    def test_calculate_xo(self):
+        self.model.cut = 0.2
+        assert self.model.calculate_xo() == pytest.approx(0.1346)
