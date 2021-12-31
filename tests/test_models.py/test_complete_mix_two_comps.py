@@ -139,10 +139,10 @@ class TestCompleMixTwoCaseTwo:
     permeate_stream_file = "permeate_stream_data.json"
 
     stream_data_in = {
-        "composition": {"CO2": 0.5, "N2": 0.5},
+        "composition": {"CO2": 0.209, "N2": 0.791},
         "flow_rate": 1000000.0,
         "temperature": 190.0,
-        "pressure": 80,
+        "pressure": 190,
     }
     stream_data_out = {
         "composition": {"CO2": 0.25, "N2": 0.75},
@@ -173,4 +173,4 @@ class TestCompleMixTwoCaseTwo:
 
     def test_calculate_xo(self):
         self.model.cut = 0.2
-        assert self.model.calculate_xo() == pytest.approx(0.1346)
+        assert self.model.calculate_xo() == pytest.approx(0.1346, 0.0005)
