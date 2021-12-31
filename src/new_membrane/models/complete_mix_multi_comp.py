@@ -35,6 +35,10 @@ class CompleteMix:
     def feed_composition(self):
         return self._feed_stream.composition
 
+    @property
+    def feed_flow(self):
+        return self._feed_stream.flow
+
     def _unpack_known_vars(self) -> dict:
         """Unpacks and calculates system variables from Streams & Membrane.
 

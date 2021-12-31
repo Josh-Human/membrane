@@ -61,3 +61,6 @@ class TestCompleteMixGet:
 
     def test_get_feed_composition(self):
         assert self.model.feed_composition == {"A": 0.25, "B": 0.55, "C": 0.2}
+
+    def test_get_feed_flow(self):
+        assert self.model.feed_flow == 10000
