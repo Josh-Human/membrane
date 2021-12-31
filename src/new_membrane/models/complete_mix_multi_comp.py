@@ -39,9 +39,38 @@ class CompleteMix:
     def feed_flow(self):
         return self._feed_stream.flow
 
+    @property
+    def cut(self):
+        return self._known_vars["cut"]
+
     def _unpack_known_vars(self) -> dict:
         """Unpacks and calculates system variables from Streams & Membrane.
 
         If values are None then sets to 0.
         """
-        pass
+        feed_composition = list(self._feed_stream.composition.values())
+
+        feed_flow = self._feed_stream.flow
+
+        try:
+            cut = self._permeate_stream.flow / self._reject_stream.flow
+        except ZeroDivisionError:
+            pass
+        finally:
+            cut = 0
+
+        pl = self._permeate_stream.pressure
+        ph = self._feed_stream.pressure
+
+        permeability = list(self._membrane.permeability.values())
+        thickness = self._membrane.thickness
+
+        return {
+            "feed_comp": feed_composition,
+            "feed_flow": feed_flow,
+            "cut": cut,
+            "pl": pl,
+            "ph": ph,
+            "permeability": permeability,
+            "thickness": thickness,
+        }

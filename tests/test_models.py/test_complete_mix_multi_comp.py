@@ -64,3 +64,6 @@ class TestCompleteMixGet:
 
     def test_get_feed_flow(self):
         assert self.model.feed_flow == 10000
+
+    def test_get_cut(self):
+        assert self.model.cut == 0
