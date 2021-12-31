@@ -234,3 +234,6 @@ class TestCompleMixTwoCaseTwo:
 
     def test_calculate_minimum_reject(self):
         assert self.model.calculate_min_reject() == pytest.approx(0.1932, 0.0001)
+
+        self.model._sys_vars["xf"] = 0.65
+        assert self.model.calculate_min_reject() == pytest.approx(0.2780, 0.01)
