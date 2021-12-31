@@ -64,3 +64,6 @@ class TestCompleteMixTwoGet:
 
     def test_get_pr(self):
         assert self.model.pr == 1.6
+
+    def test_get_yp(self):
+        assert self.model.yp == 0.1
