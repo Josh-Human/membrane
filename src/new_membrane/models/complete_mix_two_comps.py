@@ -1,4 +1,3 @@
-from new_membrane import components
 from new_membrane.components import StreamConstructor
 from new_membrane.components import MembraneConstructor
 import math
