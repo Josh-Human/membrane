@@ -13,6 +13,7 @@ class CompleteMixTwo:
     ) -> None:
         self._input_stream = StreamConstructor(dir, input_stream).stream
         self._output_stream = StreamConstructor(dir, output_stream).stream
+        self._permeate_stream = StreamConstructor(dir, permeate_stream).stream
         self._membrane = MembraneConstructor(dir, membrane).membrane
         self._sys_vars = self._unpack_sys_vars()
 

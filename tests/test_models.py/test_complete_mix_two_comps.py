@@ -22,7 +22,7 @@ class TestCompleteMixTwoGet:
     membrane_file = "membrane_data.json"
     stream_file = "stream_data.json"
     stream_file_out = "stream_data_out.json"
-    permeate_stream_file = "stream_data.json"
+    permeate_stream_file = "permeate_stream_data.json"
 
     stream_data_in = {
         "composition": {"CO2": 0.5, "N2": 0.5},
