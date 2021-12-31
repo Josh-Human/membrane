@@ -55,6 +55,10 @@ class CompleteMix:
     def permeabilities(self):
         return self._membrane.permeability
 
+    @property
+    def thickness(self):
+        return self._membrane.thickness
+
     def _unpack_known_vars(self) -> dict:
         """Unpacks and calculates system variables from Streams & Membrane.
 

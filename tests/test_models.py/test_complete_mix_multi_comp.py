@@ -76,3 +76,6 @@ class TestCompleteMixGet:
 
     def test_get_permeabilities(self):
         assert self.model.permeabilities == {"A": 200e-10, "B": 50e-10, "C": 25e-10}
+
+    def test_get_thickness(self):
+        assert self.model.thickness == 0.00254
