@@ -174,3 +174,8 @@ class TestCompleMixTwoCaseTwo:
     def test_calculate_xo(self):
         self.model.cut = 0.2
         assert self.model.calculate_xo() == pytest.approx(0.1346, 0.0005)
+
+    def test_calculate_area(self):
+        self.model.cut = 0.2
+        self.model.calculate_xo()
+        assert self.model.calculate_area() == pytest.approx(322800000, 100000)
