@@ -42,8 +42,13 @@ class Membrane:
     def area(self):
         """
         :getter: gets total area
+        :setter: set total area
         """
         return self._area
+
+    @area.setter
+    def area(self, value):
+        self._area = value
 
     @property
     def stages(self):

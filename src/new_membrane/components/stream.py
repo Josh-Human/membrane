@@ -36,8 +36,8 @@ class Stream:
     def composition(self, newComposition: Union[dict, list]) -> None:
         check_and_update(self, "_composition", newComposition)
 
-        if sum(self._composition.values()) != 1:
-            raise ValueError("New composition must equal 1")
+        # if sum(self._composition.values()) != 1:
+        #     raise ValueError("New composition must equal 1")
 
         self._update_component_flows()
 

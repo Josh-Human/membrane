@@ -33,13 +33,13 @@ class TestCompleteMixGet:
         "pressure": 300,
     }
     stream_data_out = {
-        "composition": {"CO2": 0.25, "N2": 0.75},
+        "composition": {"A": 0, "B": 0, "C": 0},
         "flow_rate": 10,
         "temperature": 50.0,
         "pressure": 300,
     }
     permeate_stream_data = {
-        "composition": {"CO2": 0.1, "N2": 0},
+        "composition": {"A": 0, "B": 0, "C": 0},
         "flow_rate": 0,
         "temperature": 50.0,
         "pressure": 30,
@@ -77,5 +77,25 @@ class TestCompleteMixGet:
     def test_get_permeabilities(self):
         assert self.model.permeabilities == {"A": 200e-10, "B": 50e-10, "C": 25e-10}
 
+    def test_get_permeate_composition(self):
+        assert self.model.permeate_composition == {"A": 0, "B": 0, "C": 0}
+
     def test_get_thickness(self):
         assert self.model.thickness == 0.00254
+
+    def test_calculate_permeate_composition_returns_correct(self):
+        self.model.cut = 0.25
+        result = self.model.calculate_permeate_composition(0.5)
+        assert result == pytest.approx(-0.1525, 0.001)
+
+    def test_calculate_permeate_composition_calculates_composition(self):
+        self.model.cut = 0.25
+        self.model.calculate_permeate_composition(0.5)
+        assert self.model.permeate_composition == pytest.approx(
+            {
+                "A": 0.5,
+                "B": 0.5366,
+                "C": 0.1159,
+            },
+            0.001,
+        )

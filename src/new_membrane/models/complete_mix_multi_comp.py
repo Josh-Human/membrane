@@ -30,6 +30,7 @@ class CompleteMix:
         self._permeate_stream = StreamConstructor(dir, permeate_stream).stream
         self._membrane = MembraneConstructor(dir, membrane).membrane
         self._known_vars = self._unpack_known_vars()
+        self._unknown_vars = {}
 
     @property
     def feed_composition(self):
@@ -42,6 +43,10 @@ class CompleteMix:
     @property
     def cut(self):
         return self._known_vars["cut"]
+
+    @cut.setter
+    def cut(self, value):
+        self._known_vars["cut"] = value
 
     @property
     def pl(self):
@@ -58,6 +63,10 @@ class CompleteMix:
     @property
     def thickness(self):
         return self._membrane.thickness
+
+    @property
+    def permeate_composition(self):
+        return self._permeate_stream.composition
 
     def _unpack_known_vars(self) -> dict:
         """Unpacks and calculates system variables from Streams & Membrane.
@@ -90,3 +99,61 @@ class CompleteMix:
             "permeability": permeability,
             "thickness": thickness,
         }
+
+    def calculate_permeate_composition(self, initial_guess=None):
+        if initial_guess:
+            self._permeate_stream.composition = [initial_guess]
+            self._unknown_vars["ypa"] = initial_guess
+        else:
+            self._permeate_stream.composition = [
+                self._known_vars["feed_comp"][0] + 0.01
+            ]
+            self._unknown_vars["ypa"] = self._known_vars["feed_comp"][0] + 0.01
+
+        self._permeate_stream.flow = (
+            self._known_vars["cut"] * self._known_vars["feed_flow"]
+        )
+        self._unknown_vars["vp"] = (
+            self._known_vars["cut"] * self._known_vars["feed_flow"]
+        )
+
+        self._membrane.area = (
+            self._permeate_stream.flow
+            * self._unknown_vars["ypa"]
+            * self._membrane.thickness
+        ) / (
+            self._known_vars["permeability"][0]
+            * (
+                (self._known_vars["ph"] / (1 - self._known_vars["cut"]))
+                * (
+                    self._known_vars["feed_comp"][0]
+                    - self._known_vars["cut"] * self._unknown_vars["ypa"]
+                )
+                - self._known_vars["pl"] * self._unknown_vars["ypa"]
+            )
+        )
+
+        for k in self._permeate_stream.composition.keys():
+            self._permeate_stream.composition[k] = (
+                self._known_vars["ph"]
+                * self._feed_stream.composition[k]
+                / (1 - self._known_vars["cut"])
+            ) / (
+                (
+                    self._unknown_vars["vp"]
+                    * self._known_vars["thickness"]
+                    / (self._membrane.permeability[k] * self._membrane.area)
+                )
+                + (self._known_vars["cut"] * self._known_vars["ph"])
+                / (1 - self._known_vars["cut"])
+                + self._known_vars["pl"]
+            )
+
+        if initial_guess:
+            self._permeate_stream.composition = [initial_guess]
+        else:
+            self._permeate_stream.composition = [
+                self._known_vars["feed_comp"][0] + 0.01
+            ]
+
+        return 1 - sum(self._permeate_stream.composition.values())
