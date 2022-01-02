@@ -99,3 +99,15 @@ class TestCompleteMixGet:
             },
             0.001,
         )
+
+    def test_calculate_reject_composition_calculates_composition(self):
+        self.model.cut = 0.25
+        result = self.model.calculate_reject_composition(0.5)
+        assert result == pytest.approx(
+            {
+                "A": 0.1815,
+                "B": 0.5833,
+                "C": 0.2352,
+            },
+            0.001,
+        )

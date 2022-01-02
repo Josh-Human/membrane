@@ -1,6 +1,6 @@
 from new_membrane.components import StreamConstructor
 from new_membrane.components import MembraneConstructor
-import math
+import scipy.optimize
 
 
 class CompleteMix:
@@ -160,3 +160,13 @@ class CompleteMix:
                 / (1 - self._known_vars["cut"])
                 + self._known_vars["pl"]
             )
+
+    def calculate_reject_composition(self, yp0=None):
+        scipy.optimize.newton(self.calculate_permeate_composition, yp0)
+
+        for k in self._reject_stream.composition.keys():
+            self._reject_stream.composition[k] = self._feed_stream.composition[k] / (
+                1 - self.cut
+            ) - (self.cut * self._permeate_stream.composition[k]) / (1 - self.cut)
+
+        return self._reject_stream.composition
