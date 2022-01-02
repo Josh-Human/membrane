@@ -101,6 +101,15 @@ class CompleteMix:
         }
 
     def calculate_permeate_composition(self, initial_guess=None):
+        self._set_permeate_composition(initial_guess)
+        self._calculate_permeate_flow()
+        self._calculate_area()
+        self._calculate_permeate_compositions()
+        # Calculate compositions overwrites initial set which is unwanted, so repeated.
+        self._set_permeate_composition(initial_guess)
+        return 1 - sum(self._permeate_stream.composition.values())
+
+    def _set_permeate_composition(self, initial_guess=None):
         if initial_guess:
             self._permeate_stream.composition = [initial_guess]
             self._unknown_vars["ypa"] = initial_guess
@@ -110,6 +119,7 @@ class CompleteMix:
             ]
             self._unknown_vars["ypa"] = self._known_vars["feed_comp"][0] + 0.01
 
+    def _calculate_permeate_flow(self):
         self._permeate_stream.flow = (
             self._known_vars["cut"] * self._known_vars["feed_flow"]
         )
@@ -117,6 +127,7 @@ class CompleteMix:
             self._known_vars["cut"] * self._known_vars["feed_flow"]
         )
 
+    def _calculate_area(self):
         self._membrane.area = (
             self._permeate_stream.flow
             * self._unknown_vars["ypa"]
@@ -133,6 +144,7 @@ class CompleteMix:
             )
         )
 
+    def _calculate_permeate_compositions(self):
         for k in self._permeate_stream.composition.keys():
             self._permeate_stream.composition[k] = (
                 self._known_vars["ph"]
@@ -148,12 +160,3 @@ class CompleteMix:
                 / (1 - self._known_vars["cut"])
                 + self._known_vars["pl"]
             )
-
-        if initial_guess:
-            self._permeate_stream.composition = [initial_guess]
-        else:
-            self._permeate_stream.composition = [
-                self._known_vars["feed_comp"][0] + 0.01
-            ]
-
-        return 1 - sum(self._permeate_stream.composition.values())
