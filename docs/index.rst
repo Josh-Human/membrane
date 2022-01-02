@@ -20,11 +20,26 @@ Indices and tables
 * :ref:`search`
 
 
+Stream Constructor
+==================
+.. automodule:: new_membrane.components.stream_constructor
+   :members:
+
+
 Stream
 ======
 
-.. automodule:: new_membrane.stream
+.. automodule:: new_membrane.components.stream
    :members:
 
-.. automodule:: new_membrane.stream_constructor
+Membrane Constructor
+====================
+.. automodule:: new_membrane.components.membrane_constructor
    :members:
+
+
+Membrane
+========
+.. automodule:: new_membrane.components.membrane
+   :members:
+

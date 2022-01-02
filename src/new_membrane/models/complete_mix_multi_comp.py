@@ -23,13 +23,33 @@ class CompleteMix:
         :param _reject_stream: Stream object representing the reject flow.
         :param _permeate_stream: Stream object representing the permeate/product flow.
         :param _membrane: Membrane object represnting the membrane.
-        :param _sys_vars: Dictionary of the 7 variables neccasary to model a system. xf, xo, yp, θ, alpha, pl/ph, and Am, four of which are independent variables. Examples may be found in reference in class docstring.
+
         """
         self._feed_stream = StreamConstructor(dir, feed_stream).stream
         self._reject_stream = StreamConstructor(dir, reject_stream).stream
         self._permeate_stream = StreamConstructor(dir, permeate_stream).stream
         self._membrane = MembraneConstructor(dir, membrane).membrane
-        self._known_vars = self._unpack_known_vars()
+
+        # Known values
+        self._feed_composition = list(self._feed_stream.composition.values())
+        self._feed_flow = self._feed_stream.flow
+
+        self._pl = self._permeate_stream.pressure
+        self._ph = self._feed_stream.pressure
+
+        self._permeabilities = list(self._membrane.permeability.values())
+        self._thickness = self._membrane.thickness
+
+        self._cut = (
+            self._permeate_stream.flow / self._reject_stream.flow
+            if self._permeate_stream.flow / self._reject_stream.flow
+            else 0
+        )
+
+        # Unkown values
+        self._ypa = None
+        self._vp = None
+
         self._unknown_vars = {}
 
     @property
@@ -52,11 +72,11 @@ class CompleteMix:
         :getter: get cut of system
         :setter: set cut of system
         """
-        return self._known_vars["cut"]
+        return self._cut
 
     @cut.setter
     def cut(self, value: float) -> None:
-        self._known_vars["cut"] = value
+        self._cut = value
 
     @property
     def pl(self) -> float:
@@ -93,38 +113,6 @@ class CompleteMix:
         """
         return self._permeate_stream.composition
 
-    def _unpack_known_vars(self) -> dict:
-        """Unpacks and calculates system variables from Streams & Membrane.
-
-        If values are None then sets to 0.
-        """
-        feed_composition = list(self._feed_stream.composition.values())
-
-        feed_flow = self._feed_stream.flow
-
-        try:
-            cut = self._permeate_stream.flow / self._reject_stream.flow
-        except ZeroDivisionError:
-            pass
-        finally:
-            cut = 0
-
-        pl = self._permeate_stream.pressure
-        ph = self._feed_stream.pressure
-
-        permeability = list(self._membrane.permeability.values())
-        thickness = self._membrane.thickness
-
-        return {
-            "feed_comp": feed_composition,
-            "feed_flow": feed_flow,
-            "cut": cut,
-            "pl": pl,
-            "ph": ph,
-            "permeability": permeability,
-            "thickness": thickness,
-        }
-
     def calculate_permeate_composition(self, initial_guess: float = None) -> float:
         """Calculates permeate composition and returns a value for root finding.
 
@@ -142,37 +130,26 @@ class CompleteMix:
         """Sets mole fraction of component A."""
         if initial_guess:
             self._permeate_stream.composition = [initial_guess]
-            self._unknown_vars["ypa"] = initial_guess
+            self._ypa = initial_guess
         else:
-            self._permeate_stream.composition = [
-                self._known_vars["feed_comp"][0] + 0.01
-            ]
-            self._unknown_vars["ypa"] = self._known_vars["feed_comp"][0] + 0.01
+            self._permeate_stream.composition = [self._feed_composition[0] + 0.01]
+            self._ypa = self._feed_composition[0] + 0.01
 
     def _calculate_permeate_flow(self) -> None:
         """Permeate flow is calculated using current composition guess."""
-        self._permeate_stream.flow = (
-            self._known_vars["cut"] * self._known_vars["feed_flow"]
-        )
-        self._unknown_vars["vp"] = (
-            self._known_vars["cut"] * self._known_vars["feed_flow"]
-        )
+        self._permeate_stream.flow = self._cut * self._feed_flow
+        self._vp = self._cut * self._feed_flow
 
     def _calculate_area(self) -> None:
         """Membrane area calculated using current iteration values."""
         self._membrane.area = (
-            self._permeate_stream.flow
-            * self._unknown_vars["ypa"]
-            * self._membrane.thickness
+            self._permeate_stream.flow * self._ypa * self._membrane.thickness
         ) / (
-            self._known_vars["permeability"][0]
+            self._permeabilities[0]
             * (
-                (self._known_vars["ph"] / (1 - self._known_vars["cut"]))
-                * (
-                    self._known_vars["feed_comp"][0]
-                    - self._known_vars["cut"] * self._unknown_vars["ypa"]
-                )
-                - self._known_vars["pl"] * self._unknown_vars["ypa"]
+                (self._ph / (1 - self._cut))
+                * (self._feed_composition[0] - self._cut * self._ypa)
+                - self._pl * self._ypa
             )
         )
 
@@ -183,18 +160,15 @@ class CompleteMix:
         """
         for k in self._permeate_stream.composition.keys():
             self._permeate_stream.composition[k] = (
-                self._known_vars["ph"]
-                * self._feed_stream.composition[k]
-                / (1 - self._known_vars["cut"])
+                self._ph * self._feed_stream.composition[k] / (1 - self._cut)
             ) / (
                 (
-                    self._unknown_vars["vp"]
-                    * self._known_vars["thickness"]
+                    self._vp
+                    * self._thickness
                     / (self._membrane.permeability[k] * self._membrane.area)
                 )
-                + (self._known_vars["cut"] * self._known_vars["ph"])
-                / (1 - self._known_vars["cut"])
-                + self._known_vars["pl"]
+                + (self._cut * self._ph) / (1 - self._cut)
+                + self._pl
             )
 
     def calculate_reject_composition(self, yp0: float = None) -> dict:
@@ -206,7 +180,7 @@ class CompleteMix:
 
         for k in self._reject_stream.composition.keys():
             self._reject_stream.composition[k] = self._feed_stream.composition[k] / (
-                1 - self.cut
-            ) - (self.cut * self._permeate_stream.composition[k]) / (1 - self.cut)
+                1 - self._cut
+            ) - (self._cut * self._permeate_stream.composition[k]) / (1 - self._cut)
 
         return self._reject_stream.composition
