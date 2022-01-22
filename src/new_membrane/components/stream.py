@@ -1,9 +1,17 @@
+from asyncio.windows_events import NULL
 from typing import Union
 from new_membrane.utils.utils import check_and_update
+from new_membrane.utils.utils import Number, PositiveDictionary
 
 
 class Stream:
     """Object representing a ChemEng process stream."""
+
+    _composition = PositiveDictionary()
+    _flow = Number(0)
+    _temperature = Number()
+    _pressure = Number(0)
+    _component_flows = PositiveDictionary
 
     def __init__(
         self, composition: dict, flow: float, temp: float, pressure: float
@@ -12,15 +20,16 @@ class Stream:
 
         :param _composition: Dictionary representing components and their       respective molar fraction.
         :param _flow: value representing molar flow rate
-        :param _temperature: value represnting temperature of stream
-        :param _pressure: value representing sream pressure
-        :param _component_flows: Dictionary represnting components and their    respective molar flow rates. Initally calculated using total flow and composition.
+        :param _temperature: value representing temperature of stream
+        :param _pressure: value representing stream pressure
+        :param _component_flows: Dictionary representing components and their respective molar flow rates. Initally calculated using total flow and composition.
         """
         self._composition = composition
         self._flow = flow
         self._temperature = temp
         self._pressure = pressure
-        self._component_flows = self._initial_component_flow()
+        self._component_flows = NULL
+        self._update_component_flows()
 
     @property
     def composition(self) -> dict:
@@ -34,11 +43,8 @@ class Stream:
 
     @composition.setter
     def composition(self, newComposition: Union[dict, list]) -> None:
-        check_and_update(self, "_composition", newComposition)
 
-        # if sum(self._composition.values()) != 1:
-        #     raise ValueError("New composition must equal 1")
-
+        self._composition = newComposition
         self._update_component_flows()
 
     @property
@@ -53,8 +59,6 @@ class Stream:
 
     @flow.setter
     def flow(self, value: float) -> None:
-        if value < 0:
-            raise ValueError("Flow must be positive")
         self._flow = value
         self._update_component_flows()
 
@@ -82,24 +86,7 @@ class Stream:
 
     @pressure.setter
     def pressure(self, value: float) -> None:
-        if value < 0:
-            raise ValueError("Pressure must be positive")
         self._pressure = value
-
-    def _initial_component_flow(self) -> dict:
-        """Calculates inital component flow rates.
-
-        Takes initial composition and flowrate to calculate component flowrates. getss a dict of component:flowrate.
-        """
-        return dict(
-            zip(
-                self._composition.keys(),
-                [
-                    self._composition[component] * self._flow
-                    for component in self._composition.keys()
-                ],
-            )
-        )
 
     @property
     def component_flows(self) -> dict:
@@ -111,10 +98,9 @@ class Stream:
         return self._component_flows
 
     @component_flows.setter
-    def component_flows(self, newFlows: Union[dict, list]) -> None:
+    def component_flows(self, newFlows: dict) -> None:
 
-        check_and_update(self, "_component_flows", newFlows)
-
+        self._component_flows = newFlows
         self._update_flow()
         self._update_composition()
 
