@@ -1,7 +1,6 @@
-# Project Name
+# Carbon-Capture Membrane
 
-> Outline a brief description of your project.
-> Live demo [_here_](https://www.example.com). <!-- If you have the project hosted somewhere, include the link here. -->
+> A program to simulate a gas seperation membrane, which is then tested for carbon capture.
 
 ## Table of Contents
 
@@ -19,29 +18,35 @@
 
 ## General Information
 
--   Provide general information about your project here.
--   What problem does it (intend to) solve?
--   What is the purpose of your project?
--   Why did you undertake it?
+This project was initially part of my MEng disseration, however the focus was on the chemical engineering aspects at that time.
+Since then the project has been re-written as a practical learning exercise to aid my understanding of:
+
+-   Object-oriented-design
+-   Test driven development
+-   Implementing proper documentation
+
+Over time I hope to further improve this work and expand upon it.
+
 <!-- You don't have to answer all the questions - just the ones relevant to your project. -->
 
 ## Technologies Used
 
--   Tech 1 - version 1.0
--   Tech 2 - version 2.0
--   Tech 3 - version 3.0
+-   pytest - 6.2.5
+-   Sphinx - 4.3.2
 
 ## Features
 
 List the ready features here:
 
--   Awesome feature 1
--   Awesome feature 2
--   Awesome feature 3
+-   Comprehensive unit testing
+-   Full documentation - with Sphinx generated web page
+-   Makes use of python features such as:
+    -   Descriptors
+    -   Fixtures
 
-## Screenshots
+<!-- ## Screenshots
 
-![Example screenshot](./img/screenshot.png)
+![Example screenshot](./img/screenshot.png) -->
 
 <!-- If you have screenshots you'd like to share, include them here. -->
 
@@ -60,7 +65,7 @@ Provide various use cases and code examples here.
 
 ## Project Status
 
-Project is: _in progress_ / _complete_ / _no longer being worked on_. If you are no longer working on it, provide reasons why.
+Project is: in progress.
 
 ## Room for Improvement
 
@@ -68,25 +73,25 @@ Include areas you believe need improvement / could be improved. Also add TODOs f
 
 Room for improvement:
 
--   Improvement to be done 1
--   Improvement to be done 2
+-   Better understanding of when to use 'private' and public attributes
+-   Understanding of what makes a good test
+    -   e.g had a series of tests for simple getter/setter functions
+-   Understanding of project architecture
 
 To do:
 
--   Feature to be added 1
--   Feature to be added 2
+-   Refactor membrane object to have keys with value null rather than add on class
+-   Improve formatting of Sphinx web page
+-   Host documentation online
+-   Create additonal models for more complex simulations
 
 ## Acknowledgements
 
-Give credit here.
-
--   This project was inspired by...
--   This project was based on [this tutorial](https://www.example.com).
--   Many thanks to...
+Many thanks to my academic supervisors Professor Ferrari & Professor Baschetti.
 
 ## Contact
 
-Created by [@flynerdpl](https://www.flynerd.pl/) - feel free to contact me!
+Created by [@Josh](https://www.linkedin.com/in/joshua-human/) - feel free to contact me!
 
 <!-- Optional -->
 <!-- ## License -->
