@@ -49,6 +49,10 @@ class CompleteMix:
         # Unkown values
         self._ypa = None
         self._vp = None
+        self._permeate_composition = None
+        self._total_area = None
+        self._reject_composition = None
+        self._permeate_flow = None
 
         self._unknown_vars = {}
 
@@ -122,6 +126,7 @@ class CompleteMix:
         self._calculate_permeate_flow()
         self._calculate_area()
         self._calculate_permeate_compositions()
+
         # Calculate compositions overwrites initial set which is unwanted, so repeated.
         self._set_permeate_composition(initial_guess)
         return 1 - sum(self._permeate_stream.composition.values())
