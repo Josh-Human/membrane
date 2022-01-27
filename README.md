@@ -1,6 +1,6 @@
 # Carbon-Capture Membrane
 
-> A program to simulate a gas seperation membrane, which is then tested for carbon capture.
+> A program to simulate a gas seperation membrane, tested for carbon capture.
 
 ## Table of Contents
 
@@ -21,11 +21,9 @@
 This project was initially part of my MEng disseration, however the focus was on the chemical engineering aspects at that time.
 Since then the project has been re-written as a practical learning exercise to aid my understanding of:
 
--   Object-oriented-design
--   Test driven development
+-   Object Oriented Design (OOD)
+-   Test driven development (TDD)
 -   Implementing proper documentation
-
-Over time I hope to further improve this work and expand upon it.
 
 <!-- You don't have to answer all the questions - just the ones relevant to your project. -->
 
@@ -36,10 +34,8 @@ Over time I hope to further improve this work and expand upon it.
 
 ## Features
 
-List the ready features here:
-
--   Comprehensive unit testing
--   Full documentation - with Sphinx generated web page
+-   Comprehensive unit testing.
+-   Full documentation - with Sphinx generated web page.
 -   Makes use of python features such as:
     -   Descriptors
     -   Fixtures
@@ -52,38 +48,45 @@ List the ready features here:
 
 ## Setup
 
-What are the project requirements/dependencies? Where are they listed? A requirements.txt or a Pipfile.lock file perhaps? Where is it located?
-
-Proceed to describe how to install / setup one's local environment / get started with the project.
+1. Navigate to directory that will host the project
+2. Clone the repo:
+   `git clone https://github.com/Josh-Human/membrane.git`
+3. Navigate into directory
+   `cd membrane`
+4. Create a virtual env
+   `python3 -m venv .venv`
+5. Activate enviroment
+   `.venv/Scripts/activate`
+6. Install required packages
+   `pip install -r requirements.txt`
 
 ## Usage
 
-How does one go about using it?
-Provide various use cases and code examples here.
+All tests may be run using
+`pytest`
 
-`write-your-code-here`
+Specific tests may be run using
+`pytest <file_path>`
 
 ## Project Status
 
-Project is: in progress.
+Project is: in progress. Changes will be made to improve existing code and expand upon work as time allows.
 
 ## Room for Improvement
 
-Include areas you believe need improvement / could be improved. Also add TODOs for future development.
-
 Room for improvement:
 
--   Better understanding of when to use 'private' and public attributes
--   Understanding of what makes a good test
+-   Better understanding of when to use 'private' and public attributes.
+-   Understanding of what makes a good test.
     -   e.g had a series of tests for simple getter/setter functions
--   Understanding of project architecture
+-   Understanding of project architecture.
 
 To do:
 
--   Refactor membrane object to have keys with value null rather than add on class
--   Improve formatting of Sphinx web page
--   Host documentation online
--   Create additonal models for more complex simulations
+-   Refactor JSON/consturctor classes to have keys with value null rather than adding on instance.
+-   Improve formatting of Sphinx web page.
+-   Host documentation online.
+-   Create additonal models for more complex simulations.
 
 ## Acknowledgements
 
