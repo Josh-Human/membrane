@@ -34,8 +34,8 @@ Since then the project has been re-written as a practical learning exercise to a
 
 ## Features
 
--   Comprehensive unit testing.
--   Full documentation - with Sphinx generated web page.
+-   Comprehensive unit testing
+-   Full documentation - with Sphinx generated web page
 -   Makes use of python features such as:
     -   Descriptors
     -   Fixtures
@@ -49,23 +49,23 @@ Since then the project has been re-written as a practical learning exercise to a
 ## Setup
 
 1. Navigate to directory that will host the project
-2. Clone the repo:
+2. Clone the repo:<br>
    `git clone https://github.com/Josh-Human/membrane.git`
-3. Navigate into directory
+3. Navigate into directory:<br>
    `cd membrane`
-4. Create a virtual env
+4. Create a virtual env:<br>
    `python3 -m venv .venv`
-5. Activate enviroment
+5. Activate enviroment:<br>
    `.venv/Scripts/activate`
-6. Install required packages
+6. Install required packages:<br>
    `pip install -r requirements.txt`
 
 ## Usage
 
-All tests may be run using
+All tests may be run using:<br>
 `pytest`
 
-Specific tests may be run using
+Specific tests may be run using:<br>
 `pytest <file_path>`
 
 ## Project Status
